@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Cinema aggregator</string>
+    <string name="filtering_settings">Настойки фильтрации</string>
+    <string name="search">Поиск</string>
+    <string name="type_request">Введите запрос</string>
+    <string name="poster">Постер</string>
 </resources>
