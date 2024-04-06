@@ -1,1 +1,3 @@
 /build
+*KinopoiskApiTokenConst.kt
+src/main/java/com/example/cinemaaggregator/common/KinopoiskApiTokenConst.kt
