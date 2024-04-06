@@ -1,4 +1,4 @@
-package com.example.cinemaaggregator
+package com.example.cinemaaggregator.common
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
