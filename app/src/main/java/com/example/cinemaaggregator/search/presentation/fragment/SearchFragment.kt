@@ -1,6 +1,8 @@
 package com.example.cinemaaggregator.search.presentation.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,17 +32,21 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.state.observe(viewLifecycleOwner) {
-            when (it) {
-                is SearchState.Content -> Log.e("MyTag", "ViewModel Content")
-                is SearchState.Empty -> Log.e("MyTag", "ViewModel Empty")
-                is SearchState.Error -> Log.e("MyTag", "ViewModel Error")
-                is SearchState.Loading -> {
-                    Log.e("MyTag", "ViewModel Loading")
-                }
+        viewModel.state.observe(viewLifecycleOwner) { renderState(it) }
+        binding.searchScreenEditText.addTextChangedListener(searchTextWatcher)
+    }
 
-                is SearchState.SearchHistory -> Log.e("MyTag", "ViewModel SearchHistory")
-            }
+    private val searchTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            viewModel.movieSearchDebounce(s.toString())
         }
+
+        override fun afterTextChanged(s: Editable?) = Unit
+    }
+
+    private fun renderState(state: SearchState) {
+        // TODO
     }
 }

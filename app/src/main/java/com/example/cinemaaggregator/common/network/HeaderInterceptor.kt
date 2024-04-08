@@ -1,6 +1,5 @@
 package com.example.cinemaaggregator.common.network
 
-import com.example.cinemaaggregator.common.KinopoiskApiTokenConst
 import okhttp3.Interceptor
 import okhttp3.Response
 

@@ -1,6 +1,5 @@
 package com.example.cinemaaggregator.search.data
 
-import android.util.Log
 import com.example.cinemaaggregator.common.network.ErrorStatus
 import com.example.cinemaaggregator.common.network.NetworkClient
 import com.example.cinemaaggregator.search.data.network.MoviesSearchResponse
@@ -24,7 +23,6 @@ class SearchScreenRepositoryImpl @Inject constructor(
         val response = networkCLient.doRequest(
             SearchRequest(options)
         )
-        Log.e("MyTag", response.resultCode.toString())
 
         when (response.resultCode) {
             -1 -> {

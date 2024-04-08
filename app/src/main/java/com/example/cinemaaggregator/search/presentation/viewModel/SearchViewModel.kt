@@ -27,7 +27,7 @@ class SearchViewModel @Inject constructor(
         _state.value = state
     }
 
-    private val movieSearchDebounce = debounce<String>(1000, viewModelScope, true) {
+    val movieSearchDebounce = debounce<String>(1000, viewModelScope, true) {
         searchNewRequest(it, page)
     }
 
