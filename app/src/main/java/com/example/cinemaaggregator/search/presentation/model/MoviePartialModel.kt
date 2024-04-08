@@ -8,4 +8,5 @@ data class MoviePartialModel(
     val movieLength: Int?,
     val ageRating: Int?,
     val countries: List<Country>?,
+    val poster: Poster?
 )

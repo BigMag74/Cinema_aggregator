@@ -6,7 +6,7 @@ sealed interface SearchState {
     object Loading : SearchState
 
     data class Content(
-        val tracks: List<MoviePartialModel>
+        val movies: List<MoviePartialModel>
     ) : SearchState
 
     data class Error(
@@ -18,6 +18,6 @@ sealed interface SearchState {
     ) : SearchState
 
     data class SearchHistory(
-        val tracks: List<MoviePartialModel>?
+        val movies: List<MoviePartialModel>?
     ) : SearchState
 }

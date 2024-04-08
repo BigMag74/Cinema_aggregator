@@ -3,7 +3,6 @@ package com.example.cinemaaggregator.search.presentation.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.cinemaaggregator.databinding.FragmentSearchBinding
 import com.example.cinemaaggregator.search.di.SearchScreenComponent
+import com.example.cinemaaggregator.search.presentation.MovieRecyclerViewAdapter
 import com.example.cinemaaggregator.search.presentation.viewModel.SearchState
 import com.example.cinemaaggregator.search.presentation.viewModel.SearchViewModel
 
@@ -24,6 +24,8 @@ class SearchFragment : Fragment() {
     }
     private val viewModel by viewModels<SearchViewModel> { component.viewModelFactory() }
 
+    private val adapter: MovieRecyclerViewAdapter by lazy { MovieRecyclerViewAdapter(requireContext()) }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
@@ -33,7 +35,9 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.state.observe(viewLifecycleOwner) { renderState(it) }
+
         binding.searchScreenEditText.addTextChangedListener(searchTextWatcher)
+        binding.searchScreenRecyclerView.adapter = adapter
     }
 
     private val searchTextWatcher = object : TextWatcher {
@@ -47,6 +51,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun renderState(state: SearchState) {
-        // TODO
+        when (state) {
+            is SearchState.Content -> {
+                adapter.items = state.movies
+                adapter.notifyDataSetChanged()
+            }
+
+            is SearchState.Empty -> {}
+            is SearchState.Error -> {}
+            is SearchState.Loading -> {}
+            is SearchState.SearchHistory -> {}
+        }
     }
 }

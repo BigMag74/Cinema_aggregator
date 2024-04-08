@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp8"
-    android:background="#eeeeee"
+    android:background="@drawable/rectangle_with_corners"
+    android:backgroundTint="#eeeeee"
     android:padding="@dimen/dp8">
 
     <ImageView

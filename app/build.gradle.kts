@@ -31,7 +31,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         buildConfig = true
         viewBinding = true
     }
@@ -60,5 +60,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.gson)
+
+    //Glide
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
 
 }

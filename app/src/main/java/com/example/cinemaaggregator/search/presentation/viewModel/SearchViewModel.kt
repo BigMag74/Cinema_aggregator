@@ -1,6 +1,5 @@
 package com.example.cinemaaggregator.search.presentation.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +19,7 @@ class SearchViewModel @Inject constructor(
     private var page: Int = 1
 
     init {
-        searchNewRequest("spider man", page)
+        setState(SearchState.Loading)
     }
 
     private fun setState(state: SearchState) {
@@ -38,10 +37,11 @@ class SearchViewModel @Inject constructor(
         setState(SearchState.Loading)
         viewModelScope.launch {
             searchMoviesUseCase.execute(text, page).collect {
-                it.first?.get(1)?.countries.let { it1 -> Log.e("MyTag", it1.toString()) }
+                if (it.first != null) {
+                    setState(SearchState.Content(it.first!!))
+                }
             }
 
         }
-        this.page++
     }
 }
