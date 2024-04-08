@@ -52,7 +52,13 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    //Dagger2
+    // Dagger2
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
+
+    // Retrofit и Gson
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.gson)
+
 }

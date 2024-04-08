@@ -1,13 +1,20 @@
 package com.example.cinemaaggregator.common
 
 import android.app.Application
-import androidx.fragment.app.Fragment
-import com.example.cinemaaggregator.common.di.AppComponent
+import com.example.cinemaaggregator.common.di.DaggerAppComponent
 
 class App : Application() {
 
-    lateinit var appComponent: AppComponent
-}
+    override fun onCreate() {
+        super.onCreate()
 
-fun Fragment.getAppComponent(): AppComponent =
-    (requireContext() as App).appComponent
+        initDI()
+    }
+
+    private fun initDI() {
+        DI.appComponent = DaggerAppComponent
+            .builder()
+            .appContext(this)
+            .build()
+    }
+}

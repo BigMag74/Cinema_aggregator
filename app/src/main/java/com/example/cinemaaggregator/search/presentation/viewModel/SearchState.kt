@@ -1,12 +1,12 @@
 package com.example.cinemaaggregator.search.presentation.viewModel
 
-import com.example.cinemaaggregator.search.presentation.model.FilmPartial
+import com.example.cinemaaggregator.search.presentation.model.MoviePartialModel
 
 sealed interface SearchState {
     object Loading : SearchState
 
     data class Content(
-        val tracks: List<FilmPartial>
+        val tracks: List<MoviePartialModel>
     ) : SearchState
 
     data class Error(
@@ -18,6 +18,6 @@ sealed interface SearchState {
     ) : SearchState
 
     data class SearchHistory(
-        val tracks: List<FilmPartial>?
+        val tracks: List<MoviePartialModel>?
     ) : SearchState
 }
