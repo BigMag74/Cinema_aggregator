@@ -1,7 +1,7 @@
-package com.example.cinemaaggregator.search.data.network
+package com.example.cinemaaggregator.searchScreen.data.network
 
 import com.example.cinemaaggregator.common.network.Response
-import com.example.cinemaaggregator.search.presentation.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
 
 class MoviesSearchResponse(
     val docs: List<MoviePartialModel>,

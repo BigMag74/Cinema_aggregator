@@ -1,7 +1,7 @@
-package com.example.cinemaaggregator.search.domain
+package com.example.cinemaaggregator.searchScreen.domain
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
-import com.example.cinemaaggregator.search.presentation.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
 import kotlinx.coroutines.flow.Flow
 
 interface SearchScreenRepository {

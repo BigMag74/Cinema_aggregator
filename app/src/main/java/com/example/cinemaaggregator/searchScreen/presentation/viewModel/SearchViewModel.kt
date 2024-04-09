@@ -1,11 +1,11 @@
-package com.example.cinemaaggregator.search.presentation.viewModel
+package com.example.cinemaaggregator.searchScreen.presentation.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cinemaaggregator.common.util.debounce
-import com.example.cinemaaggregator.search.domain.useCases.SearchMoviesUseCase
+import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor(
         _state.value = state
     }
 
-    val movieSearchDebounce = debounce<String>(1000, viewModelScope, true) {
+    val movieSearchDebounce = debounce<String>(DELAY_MILLIS, viewModelScope, true) {
         searchNewRequest(it, page)
     }
 
@@ -43,5 +43,9 @@ class SearchViewModel @Inject constructor(
             }
 
         }
+    }
+
+    companion object{
+        const val DELAY_MILLIS = 1000L
     }
 }

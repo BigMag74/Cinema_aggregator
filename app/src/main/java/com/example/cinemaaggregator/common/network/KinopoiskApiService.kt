@@ -1,6 +1,6 @@
 package com.example.cinemaaggregator.common.network
 
-import com.example.cinemaaggregator.search.data.network.MoviesSearchResponse
+import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 

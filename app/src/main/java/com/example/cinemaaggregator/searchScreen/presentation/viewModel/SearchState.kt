@@ -1,6 +1,6 @@
-package com.example.cinemaaggregator.search.presentation.viewModel
+package com.example.cinemaaggregator.searchScreen.presentation.viewModel
 
-import com.example.cinemaaggregator.search.presentation.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
 
 sealed interface SearchState {
     object Loading : SearchState

@@ -3,7 +3,7 @@ package com.example.cinemaaggregator.common.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.example.cinemaaggregator.search.data.network.SearchRequest
+import com.example.cinemaaggregator.searchScreen.data.network.SearchRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

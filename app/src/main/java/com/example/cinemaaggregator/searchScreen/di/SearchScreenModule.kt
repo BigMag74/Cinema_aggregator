@@ -1,13 +1,13 @@
-package com.example.cinemaaggregator.search.di
+package com.example.cinemaaggregator.searchScreen.di
 
 import androidx.lifecycle.ViewModel
 import com.example.cinemaaggregator.common.di.ScreenScope
 import com.example.cinemaaggregator.common.di.ViewModelKey
-import com.example.cinemaaggregator.search.data.SearchScreenRepositoryImpl
-import com.example.cinemaaggregator.search.domain.SearchScreenRepository
-import com.example.cinemaaggregator.search.domain.useCases.SearchMoviesUseCase
-import com.example.cinemaaggregator.search.domain.useCases.impl.SearchMoviesUseCaseImpl
-import com.example.cinemaaggregator.search.presentation.viewModel.SearchViewModel
+import com.example.cinemaaggregator.searchScreen.data.SearchScreenRepositoryImpl
+import com.example.cinemaaggregator.searchScreen.domain.SearchScreenRepository
+import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesUseCase
+import com.example.cinemaaggregator.searchScreen.domain.useCases.impl.SearchMoviesUseCaseImpl
+import com.example.cinemaaggregator.searchScreen.presentation.viewModel.SearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

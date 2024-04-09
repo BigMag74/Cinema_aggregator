@@ -52,7 +52,7 @@
         android:layout_marginTop="@dimen/dp16"
         android:layout_marginEnd="@dimen/dp8"
         android:clipToPadding="false"
-        android:paddingTop="@dimen/dp24"
+        android:paddingTop="@dimen/dp8"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/searchScreenPaginationProgressBar"
         app:layout_constraintEnd_toEndOf="parent"

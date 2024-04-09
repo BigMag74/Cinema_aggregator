@@ -1,4 +1,4 @@
-package com.example.cinemaaggregator.search.presentation.fragment
+package com.example.cinemaaggregator.searchScreen.presentation.fragment
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.cinemaaggregator.databinding.FragmentSearchBinding
-import com.example.cinemaaggregator.search.di.SearchScreenComponent
-import com.example.cinemaaggregator.search.presentation.MovieRecyclerViewAdapter
-import com.example.cinemaaggregator.search.presentation.viewModel.SearchState
-import com.example.cinemaaggregator.search.presentation.viewModel.SearchViewModel
+import com.example.cinemaaggregator.searchScreen.di.SearchScreenComponent
+import com.example.cinemaaggregator.searchScreen.presentation.MovieRecyclerViewAdapter
+import com.example.cinemaaggregator.searchScreen.presentation.viewModel.SearchState
+import com.example.cinemaaggregator.searchScreen.presentation.viewModel.SearchViewModel
 
 class SearchFragment : Fragment() {
 
@@ -24,7 +25,12 @@ class SearchFragment : Fragment() {
     }
     private val viewModel by viewModels<SearchViewModel> { component.viewModelFactory() }
 
-    private val adapter: MovieRecyclerViewAdapter by lazy { MovieRecyclerViewAdapter(requireContext()) }
+    private val adapter: MovieRecyclerViewAdapter by lazy {
+        MovieRecyclerViewAdapter(requireContext()) {
+            val direction = SearchFragmentDirections.actionSearchFragmentToMovieScreenFragment(it)
+            findNavController().navigate(direction)
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)

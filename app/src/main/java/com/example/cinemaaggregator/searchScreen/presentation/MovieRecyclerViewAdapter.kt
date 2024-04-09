@@ -1,4 +1,4 @@
-package com.example.cinemaaggregator.search.presentation
+package com.example.cinemaaggregator.searchScreen.presentation
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.cinemaaggregator.R
 import com.example.cinemaaggregator.databinding.ItemFilmBinding
-import com.example.cinemaaggregator.search.presentation.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
 
 class MovieRecyclerViewAdapter(
     private val context: Context,

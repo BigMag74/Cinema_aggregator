@@ -1,9 +1,9 @@
-package com.example.cinemaaggregator.search.domain.useCases.impl
+package com.example.cinemaaggregator.searchScreen.domain.useCases.impl
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
-import com.example.cinemaaggregator.search.domain.SearchScreenRepository
-import com.example.cinemaaggregator.search.domain.useCases.SearchMoviesUseCase
-import com.example.cinemaaggregator.search.presentation.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.domain.SearchScreenRepository
+import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesUseCase
+import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

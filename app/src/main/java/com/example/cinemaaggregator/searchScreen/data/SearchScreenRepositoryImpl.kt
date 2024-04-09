@@ -1,11 +1,11 @@
-package com.example.cinemaaggregator.search.data
+package com.example.cinemaaggregator.searchScreen.data
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
 import com.example.cinemaaggregator.common.network.NetworkClient
-import com.example.cinemaaggregator.search.data.network.MoviesSearchResponse
-import com.example.cinemaaggregator.search.data.network.SearchRequest
-import com.example.cinemaaggregator.search.domain.SearchScreenRepository
-import com.example.cinemaaggregator.search.presentation.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
+import com.example.cinemaaggregator.searchScreen.data.network.SearchRequest
+import com.example.cinemaaggregator.searchScreen.domain.SearchScreenRepository
+import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

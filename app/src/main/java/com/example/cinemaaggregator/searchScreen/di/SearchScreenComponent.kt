@@ -1,4 +1,4 @@
-package com.example.cinemaaggregator.search.di
+package com.example.cinemaaggregator.searchScreen.di
 
 import com.example.cinemaaggregator.common.DI
 import com.example.cinemaaggregator.common.di.ScreenScope
