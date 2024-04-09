@@ -1,4 +1,4 @@
-package com.example.cinemaaggregator.searchScreen.presentation.model
+package com.example.cinemaaggregator.searchScreen.domain.model
 
 data class MoviePartialModel(
     val id: Int,

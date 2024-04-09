@@ -3,7 +3,8 @@ package com.example.cinemaaggregator.common.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.example.cinemaaggregator.searchScreen.data.network.SearchRequest
+import com.example.cinemaaggregator.searchScreen.data.network.SearchWithFiltersRequest
+import com.example.cinemaaggregator.searchScreen.data.network.SearchByNameRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -17,17 +18,27 @@ class NetworkClientImpl @Inject constructor(
         if (isConnected() == false) {
             return Response().apply { resultCode = -1 }
         }
-        if (dto !is SearchRequest) {
-            return Response().apply { resultCode = 400 }
-        }
-
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = kinopoiskApiService.search(dto.options)
-                response.apply { resultCode = 200 }
-            } catch (e: Throwable) {
-                Response().apply { resultCode = 500 }
+        if (dto is SearchByNameRequest) {
+            return withContext(Dispatchers.IO) {
+                try {
+                    val response = kinopoiskApiService.searchByName(dto.options)
+                    response.apply { resultCode = 200 }
+                } catch (e: Throwable) {
+                    Response().apply { resultCode = 500 }
+                }
             }
+        }
+        if (dto is SearchWithFiltersRequest) {
+            return withContext(Dispatchers.IO) {
+                try {
+                    val response = kinopoiskApiService.searchWithFilters(dto.options)
+                    response.apply { resultCode = 200 }
+                } catch (e: Throwable) {
+                    Response().apply { resultCode = 500 }
+                }
+            }
+        } else {
+            return Response().apply { resultCode = 400 }
         }
     }
 

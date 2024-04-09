@@ -4,7 +4,7 @@ import com.example.cinemaaggregator.common.network.ErrorStatus
 import com.example.cinemaaggregator.common.network.NetworkClient
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesAndPageCount
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
-import com.example.cinemaaggregator.searchScreen.data.network.SearchRequest
+import com.example.cinemaaggregator.searchScreen.data.network.SearchByNameRequest
 import com.example.cinemaaggregator.searchScreen.domain.SearchScreenRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,7 +21,7 @@ class SearchScreenRepositoryImpl @Inject constructor(
         )
 
         val response = networkCLient.doRequest(
-            SearchRequest(options)
+            SearchByNameRequest(options)
         )
 
         when (response.resultCode) {

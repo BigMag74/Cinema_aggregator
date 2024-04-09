@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import com.example.cinemaaggregator.R
 import com.example.cinemaaggregator.databinding.FragmentSearchBinding
 import com.example.cinemaaggregator.searchScreen.di.SearchScreenComponent
 import com.example.cinemaaggregator.searchScreen.presentation.MovieRecyclerViewAdapter
@@ -55,11 +56,28 @@ class SearchFragment : Fragment() {
                     val pos = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = adapter.itemCount
                     if ((itemsCount > 0) && (pos >= itemsCount - 1)) {
-                        viewModel.loadMoreMovies()
+                        viewModel.searchSameRequest()
                     }
                 }
             }
         })
+
+        binding.searchToolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.searchScreenToolbarFilterMenu -> {
+                    val dialogFragment = FiltersDialogFragment(
+                        listOf("Не выбрано", "Russia", "USA"),
+                        listOf("Не выбрано", "comedy", "horror")
+                    )
+                    dialogFragment.show(childFragmentManager, "filters_dialog")
+                    true
+                }
+
+                else -> {
+                    true
+                }
+            }
+        }
     }
 
     private val searchTextWatcher = object : TextWatcher {
@@ -75,16 +93,74 @@ class SearchFragment : Fragment() {
     private fun renderState(state: SearchState) {
         when (state) {
             is SearchState.Content -> {
-                adapter.items = state.movies
-                adapter.notifyDataSetChanged()
-                if (adapter.items[0].id != state.movies[0].id)
-                    binding.searchScreenRecyclerView.scrollToPosition(0)
+                showContent(state)
             }
 
-            is SearchState.Empty -> {}
-            is SearchState.Error -> {}
-            is SearchState.Loading -> {}
-            is SearchState.SearchHistory -> {}
+            is SearchState.Empty -> {
+                showEmpty()
+            }
+
+            is SearchState.Error -> {
+                showError(state)
+            }
+
+            is SearchState.Loading -> {
+                showLoading()
+            }
         }
+    }
+
+    private fun showContent(state: SearchState.Content) {
+        binding.nothingFoundPlaceholderTV.visibility = View.GONE
+        binding.nothingFoundPlaceholderIV.visibility = View.GONE
+        binding.serverErrorPlaceholderIV.visibility = View.GONE
+        binding.serverErrorPlaceholderTV.visibility = View.GONE
+        binding.searchScreenMainProgressBar.visibility = View.GONE
+        binding.internetIssuesPlaceholderIV.visibility = View.GONE
+        binding.internetIssuesPlaceholderTV.visibility = View.GONE
+        binding.searchScreenRecyclerView.visibility = View.VISIBLE
+        adapter.items = state.movies
+        adapter.notifyDataSetChanged()
+
+        // Если был выполнен searchNewRequest()
+        if (adapter.items[0].id != state.movies[0].id)
+            binding.searchScreenRecyclerView.scrollToPosition(0)
+    }
+
+    private fun showEmpty() {
+        binding.serverErrorPlaceholderIV.visibility = View.GONE
+        binding.serverErrorPlaceholderTV.visibility = View.GONE
+        binding.searchScreenMainProgressBar.visibility = View.GONE
+        binding.searchScreenRecyclerView.visibility = View.GONE
+        binding.internetIssuesPlaceholderIV.visibility = View.GONE
+        binding.internetIssuesPlaceholderTV.visibility = View.GONE
+        binding.nothingFoundPlaceholderTV.visibility = View.VISIBLE
+        binding.nothingFoundPlaceholderIV.visibility = View.VISIBLE
+    }
+
+    private fun showError(state: SearchState.Error) {
+        binding.searchScreenMainProgressBar.visibility = View.GONE
+        binding.searchScreenRecyclerView.visibility = View.GONE
+        binding.nothingFoundPlaceholderTV.visibility = View.GONE
+        binding.nothingFoundPlaceholderIV.visibility = View.GONE
+        if (state.errorMessageResId == R.string.server_error) {
+            binding.serverErrorPlaceholderIV.visibility = View.VISIBLE
+            binding.serverErrorPlaceholderTV.visibility = View.VISIBLE
+        }
+        if (state.errorMessageResId == R.string.check_internet_connection) {
+            binding.internetIssuesPlaceholderIV.visibility = View.VISIBLE
+            binding.internetIssuesPlaceholderTV.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showLoading() {
+        binding.searchScreenRecyclerView.visibility = View.GONE
+        binding.nothingFoundPlaceholderTV.visibility = View.GONE
+        binding.nothingFoundPlaceholderIV.visibility = View.GONE
+        binding.serverErrorPlaceholderIV.visibility = View.GONE
+        binding.serverErrorPlaceholderTV.visibility = View.GONE
+        binding.internetIssuesPlaceholderIV.visibility = View.GONE
+        binding.internetIssuesPlaceholderTV.visibility = View.GONE
+        binding.searchScreenMainProgressBar.visibility = View.VISIBLE
     }
 }

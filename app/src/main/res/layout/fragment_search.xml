@@ -53,6 +53,7 @@
         android:layout_marginEnd="@dimen/dp8"
         android:clipToPadding="false"
         android:paddingTop="@dimen/dp8"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/searchScreenPaginationProgressBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +66,6 @@
         android:id="@+id/searchScreenPaginationProgressBar"
         android:layout_width="@dimen/dp48"
         android:layout_height="@dimen/dp48"
-        android:layout_gravity="center"
         android:layout_margin="@dimen/dp16"
         android:indeterminateTint="@color/black"
         android:visibility="gone"
@@ -73,5 +73,90 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchScreenRecyclerView" />
+
+    <ProgressBar
+        android:id="@+id/searchScreenMainProgressBar"
+        android:layout_width="@dimen/dp48"
+        android:layout_height="@dimen/dp48"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp64"
+        android:indeterminateTint="@color/black"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/container" />
+
+    <ImageView
+        android:id="@+id/nothingFoundPlaceholderIV"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="@dimen/dp16"
+        android:contentDescription="@string/nothing_found"
+        android:src="@drawable/nothing_found"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/container" />
+
+    <TextView
+        android:id="@+id/nothingFoundPlaceholderTV"
+        style="@style/TitleText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/nothing_found"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nothingFoundPlaceholderIV" />
+
+    <ImageView
+        android:id="@+id/serverErrorPlaceholderIV"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:contentDescription="@string/server_error"
+        android:src="@drawable/server_error"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/container" />
+
+    <TextView
+        android:id="@+id/serverErrorPlaceholderTV"
+        style="@style/TitleText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/server_error"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serverErrorPlaceholderIV" />
+
+    <ImageView
+        android:id="@+id/internetIssuesPlaceholderIV"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/dp24"
+        android:contentDescription="@string/check_internet_connection"
+        android:src="@drawable/internet_issues"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/container" />
+
+    <TextView
+        android:id="@+id/internetIssuesPlaceholderTV"
+        style="@style/TitleText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp16"
+        android:gravity="center"
+        android:text="@string/check_internet_connection"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/internetIssuesPlaceholderIV" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

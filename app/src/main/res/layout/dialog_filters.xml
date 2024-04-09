@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp8">
+
+    <TextView
+        android:id="@+id/yearTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/release_year"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ageRatingTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp16"
+        android:text="@string/age_rating"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/yearTV" />
+
+    <TextView
+        android:id="@+id/countryTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp16"
+        android:text="@string/country"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ageRatingTV" />
+
+    <TextView
+        android:id="@+id/genreTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp16"
+        android:text="@string/genre"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/countryTV" />
+
+    <EditText
+        android:id="@+id/yearET"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="@string/year_hint"
+        android:inputType="numberSigned"
+        android:maxLength="9"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintBaseline_toBaselineOf="@id/yearTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/countrySpinner" />
+
+    <EditText
+        android:id="@+id/ageRatingET"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="@string/age_rating_hint"
+        android:inputType="numberSigned"
+        android:maxLength="2"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintBaseline_toBaselineOf="@id/ageRatingTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/countrySpinner" />
+
+    <Spinner
+        android:id="@+id/countrySpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/countryTV" />
+
+    <Spinner
+        android:id="@+id/genreSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/genreTV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

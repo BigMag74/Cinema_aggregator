@@ -1,9 +1,9 @@
 package com.example.cinemaaggregator.searchScreen.presentation.viewModel
 
-import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.domain.model.MoviePartialModel
 
 sealed interface SearchState {
-    object Loading : SearchState
+    data object Loading : SearchState
 
     data class Content(
         val movies: List<MoviePartialModel>
@@ -13,11 +13,6 @@ sealed interface SearchState {
         val errorMessageResId: Int
     ) : SearchState
 
-    data class Empty(
-        val emptyMessageResId: Int
-    ) : SearchState
+    data object Empty : SearchState
 
-    data class SearchHistory(
-        val movies: List<MoviePartialModel>?
-    ) : SearchState
 }

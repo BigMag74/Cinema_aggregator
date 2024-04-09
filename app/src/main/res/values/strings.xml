@@ -4,4 +4,15 @@
     <string name="search">Поиск</string>
     <string name="type_request">Введите запрос</string>
     <string name="poster">Постер</string>
+    <string name="apply">Применить</string>
+    <string name="cancel">Отмена</string>
+    <string name="release_year">Год премьеры</string>
+    <string name="age_rating">Возрастной рейтинг</string>
+    <string name="country">Страна</string>
+    <string name="genre">Жанр</string>
+    <string name="year_hint">1990-2007</string>
+    <string name="age_rating_hint">12+</string>
+    <string name="nothing_found">По вашему запросу ничего не найдено</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="check_internet_connection">Проверьте соединение с интернетом</string>
 </resources>
