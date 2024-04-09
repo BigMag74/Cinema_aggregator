@@ -15,4 +15,5 @@
     <string name="nothing_found">По вашему запросу ничего не найдено</string>
     <string name="server_error">Ошибка сервера</string>
     <string name="check_internet_connection">Проверьте соединение с интернетом</string>
+    <string name="not_selected">Не выбрано</string>
 </resources>

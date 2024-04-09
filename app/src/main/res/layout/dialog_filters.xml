@@ -48,6 +48,7 @@
         android:id="@+id/yearET"
         android:layout_width="@dimen/dp0"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp8"
         android:gravity="center"
         android:hint="@string/year_hint"
         android:inputType="numberSigned"
@@ -55,12 +56,13 @@
         android:textSize="@dimen/sp16"
         app:layout_constraintBaseline_toBaselineOf="@id/yearTV"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/countrySpinner" />
+        app:layout_constraintStart_toEndOf="@+id/yearTV" />
 
     <EditText
         android:id="@+id/ageRatingET"
         android:layout_width="@dimen/dp0"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp8"
         android:gravity="center"
         android:hint="@string/age_rating_hint"
         android:inputType="numberSigned"
@@ -68,7 +70,7 @@
         android:textSize="@dimen/sp16"
         app:layout_constraintBaseline_toBaselineOf="@id/ageRatingTV"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/countrySpinner" />
+        app:layout_constraintStart_toEndOf="@+id/ageRatingTV" />
 
     <Spinner
         android:id="@+id/countrySpinner"

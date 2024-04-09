@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.cinemaaggregator.R
 import com.example.cinemaaggregator.common.network.ErrorStatus
 import com.example.cinemaaggregator.common.util.debounce
+import com.example.cinemaaggregator.searchScreen.domain.model.Filters
 import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesUseCase
 import com.example.cinemaaggregator.searchScreen.domain.model.MoviePartialModel
 import kotlinx.coroutines.async
@@ -25,9 +26,14 @@ class SearchViewModel @Inject constructor(
     private var lastSearchRequestText = ""
     private val moviesList = mutableListOf<MoviePartialModel>()
     private var isNextPageLoading = false
+    private var filters: Filters? = null
 
     private fun setState(state: SearchState) {
         _state.value = state
+    }
+
+    fun setFilters(filters: Filters) {
+        this.filters = filters
     }
 
     fun searchDebounced(changedText: String) {

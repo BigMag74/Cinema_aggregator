@@ -67,8 +67,8 @@ class SearchFragment : Fragment() {
                 R.id.searchScreenToolbarFilterMenu -> {
                     val dialogFragment = FiltersDialogFragment(
                         listOf("Не выбрано", "Russia", "USA"),
-                        listOf("Не выбрано", "comedy", "horror")
-                    )
+                        listOf("Не выбрано", "comedy", "horror","test3","test4","test5")
+                    ) { filters -> viewModel.setFilters(filters) }
                     dialogFragment.show(childFragmentManager, "filters_dialog")
                     true
                 }
