@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cinemaaggregator.common.util.debounce
 import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesUseCase
+import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,17 +18,29 @@ class SearchViewModel @Inject constructor(
     private val _state = MutableLiveData<SearchState>()
     val state: LiveData<SearchState> = _state
 
-    private var page: Int = 1
+    var page: Int = 1
+    private var pages: Int = 1
+    private var lastSearchRequestText = ""
+    private val moviesList = mutableListOf<MoviePartialModel>()
+    private var isNextPageLoading = false
 
     init {
-        setState(SearchState.Loading)
+        setState(SearchState.SearchHistory(listOf()))
     }
 
     private fun setState(state: SearchState) {
         _state.value = state
     }
 
-    val movieSearchDebounce = debounce<String>(DELAY_MILLIS, viewModelScope, true) {
+    fun searchDebounced(changedText: String) {
+        if (changedText != lastSearchRequestText) {
+            movieSearchDebounce(changedText)
+            lastSearchRequestText = changedText
+        }
+    }
+
+    private val movieSearchDebounce = debounce<String>(DELAY_MILLIS, viewModelScope, true) {
+        page = 1
         searchNewRequest(it, page)
     }
 
@@ -38,14 +52,38 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             searchMoviesUseCase.execute(text, page).collect {
                 if (it.first != null) {
-                    setState(SearchState.Content(it.first!!))
+                    moviesList.clear()
+                    moviesList.addAll(it.first!!.movies)
+                    pages = it.first!!.pageCount
+
+                    setState(SearchState.Content(moviesList))
                 }
             }
 
         }
     }
 
-    companion object{
+    fun loadMoreMovies() {
+        if (page < pages && !isNextPageLoading) {
+            isNextPageLoading = true
+            viewModelScope.launch {
+                val resultDeferred = async {
+                    searchMoviesUseCase.execute(lastSearchRequestText, page + 1).collect {
+                        if (it.first != null) {
+                            page++
+                            moviesList.addAll(it.first!!.movies)
+                            setState(SearchState.Content(moviesList))
+                        }
+                    }
+                }
+                resultDeferred.await()
+                isNextPageLoading = false
+            }
+        }
+    }
+
+    companion object {
+
         const val DELAY_MILLIS = 1000L
     }
 }

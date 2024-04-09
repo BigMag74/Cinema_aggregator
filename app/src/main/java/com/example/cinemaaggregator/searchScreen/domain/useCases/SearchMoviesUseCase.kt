@@ -1,10 +1,10 @@
 package com.example.cinemaaggregator.searchScreen.domain.useCases
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
-import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.data.network.MoviesAndPageCount
 import kotlinx.coroutines.flow.Flow
 
 interface SearchMoviesUseCase {
 
-    fun execute(text: String, page: Int): Flow<Pair<List<MoviePartialModel>?, ErrorStatus?>>
+    fun execute(text: String, page: Int): Flow<Pair<MoviesAndPageCount?, ErrorStatus?>>
 }

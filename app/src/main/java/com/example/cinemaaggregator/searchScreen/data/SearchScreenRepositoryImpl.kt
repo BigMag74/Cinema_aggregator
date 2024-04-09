@@ -2,10 +2,10 @@ package com.example.cinemaaggregator.searchScreen.data
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
 import com.example.cinemaaggregator.common.network.NetworkClient
+import com.example.cinemaaggregator.searchScreen.data.network.MoviesAndPageCount
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
 import com.example.cinemaaggregator.searchScreen.data.network.SearchRequest
 import com.example.cinemaaggregator.searchScreen.domain.SearchScreenRepository
-import com.example.cinemaaggregator.searchScreen.presentation.model.MoviePartialModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class SearchScreenRepositoryImpl @Inject constructor(
     private val networkCLient: NetworkClient
 ) : SearchScreenRepository {
 
-    override fun search(text: String, page: Int): Flow<Pair<List<MoviePartialModel>?, ErrorStatus?>> = flow {
+    override fun search(text: String, page: Int): Flow<Pair<MoviesAndPageCount?, ErrorStatus?>> = flow {
         val options: HashMap<String, String> = hashMapOf(
             "page" to page.toString(),
             "query" to text
@@ -30,7 +30,11 @@ class SearchScreenRepositoryImpl @Inject constructor(
             }
 
             200 -> {
-                emit(Pair((response as MoviesSearchResponse).docs, null))
+                val moviesAndPageCount = MoviesAndPageCount(
+                    (response as MoviesSearchResponse).docs,
+                    response.pages
+                )
+                emit(Pair(moviesAndPageCount, null))
             }
 
             else -> {
