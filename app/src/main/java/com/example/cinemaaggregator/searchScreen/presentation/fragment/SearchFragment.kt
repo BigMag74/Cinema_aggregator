@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +17,7 @@ import com.example.cinemaaggregator.R
 import com.example.cinemaaggregator.databinding.FragmentSearchBinding
 import com.example.cinemaaggregator.searchScreen.di.SearchScreenComponent
 import com.example.cinemaaggregator.searchScreen.presentation.MovieRecyclerViewAdapter
+import com.example.cinemaaggregator.searchScreen.presentation.viewModel.FiltersState
 import com.example.cinemaaggregator.searchScreen.presentation.viewModel.SearchState
 import com.example.cinemaaggregator.searchScreen.presentation.viewModel.SearchViewModel
 
@@ -48,6 +50,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.state.observe(viewLifecycleOwner) { renderState(it) }
+        viewModel.filtersState.observe(viewLifecycleOwner) { renderFiltersState(it) }
         viewModel.countiesState.observe(viewLifecycleOwner) {
             countries.addAll(it)
         }
@@ -80,7 +83,7 @@ class SearchFragment : Fragment() {
                         viewModel.getFilters(),
                     ) { filters ->
                         viewModel.setFilters(filters)
-                        viewModel.searchByFiltersNewRequest(filters)
+                        viewModel.searchByFiltersNewRequest()
                     }
                     dialogFragment.show(childFragmentManager, "filters_dialog")
                     true
@@ -98,9 +101,39 @@ class SearchFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             viewModel.searchByNameDebounced(s.toString())
+            if (!s.isNullOrEmpty())
+                viewModel.disableFiltersIcon()
+            else {
+                viewModel.enableFiltersIcon()
+                viewModel.searchByFiltersNewRequest()
+            }
         }
 
         override fun afterTextChanged(s: Editable?) = Unit
+    }
+
+    private fun renderFiltersState(state: FiltersState) {
+        when (state) {
+            is FiltersState.Content -> {
+                setMenuFilterIcon(R.drawable.ic_filters_selected)
+                binding.searchToolbar.menu.findItem(R.id.searchScreenToolbarFilterMenu).isEnabled = true
+            }
+
+            is FiltersState.Empty -> {
+                setMenuFilterIcon(R.drawable.ic_filters_unselected)
+                binding.searchToolbar.menu.findItem(R.id.searchScreenToolbarFilterMenu).isEnabled = true
+            }
+
+            is FiltersState.Unavailable -> {
+                setMenuFilterIcon(R.drawable.ic_filters_unavailable)
+                binding.searchToolbar.menu.findItem(R.id.searchScreenToolbarFilterMenu).isEnabled = false
+            }
+        }
+    }
+
+    private fun setMenuFilterIcon(drawableInt: Int) {
+        binding.searchToolbar.menu.findItem(R.id.searchScreenToolbarFilterMenu).icon =
+            AppCompatResources.getDrawable(requireContext(), drawableInt)
     }
 
     private fun renderState(state: SearchState) {

@@ -1,6 +1,5 @@
 package com.example.cinemaaggregator.searchScreen.presentation.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,18 +33,21 @@ class SearchViewModel @Inject constructor(
     private val _genresState = MutableLiveData<List<String>>()
     val genresState: LiveData<List<String>> = _genresState
 
+    private val _filtersState = MutableLiveData<FiltersState>(FiltersState.Unavailable)
+    val filtersState: LiveData<FiltersState> = _filtersState
+
     private var page: Int = 1
     private var pages: Int = 1
     private var lastSearchRequestText = ""
     private val moviesList = mutableListOf<MoviePartialModel>()
     private var isNextPageLoading = false
-    private var filters = Filters(country = "Russia")
+    private var filters = Filters()
 
     private var isFiltersRequest = true
 
     init {
         getFiltersFields()
-        searchByFiltersNewRequest(filters)
+        searchByFiltersNewRequest()
     }
 
     private fun setState(state: SearchState) {
@@ -60,6 +62,17 @@ class SearchViewModel @Inject constructor(
         return filters
     }
 
+    fun disableFiltersIcon() {
+        _filtersState.value = FiltersState.Unavailable
+    }
+
+    fun enableFiltersIcon() {
+        if (filters == Filters())
+            _filtersState.value = FiltersState.Empty
+        else
+            _filtersState.value = FiltersState.Content
+    }
+
     private fun getFiltersFields() {
         if (genresState.value == null || countiesState.value == null) {
             viewModelScope.launch {
@@ -71,6 +84,8 @@ class SearchViewModel @Inject constructor(
                     if (it.first != null && it.first!!.isNotEmpty())
                         _genresState.value = it.first
                 }
+                if (_genresState.value != null && _countiesState.value != null)
+                    _filtersState.value = FiltersState.Empty
             }
         }
     }
@@ -148,9 +163,12 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun searchByFiltersNewRequest(filters: Filters) {
+    fun searchByFiltersNewRequest() {
         setState(SearchState.Loading)
-        Log.e("MyTag",filters.toString())
+        if (filters == Filters())
+            _filtersState.value = FiltersState.Empty
+        else
+            _filtersState.value = FiltersState.Content
         page = 1
         viewModelScope.launch {
             searchMoviesByFiltersUseCase.execute(filters, page).collect {
