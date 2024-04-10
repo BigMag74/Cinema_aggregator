@@ -4,5 +4,5 @@ data class Filters(
     val year: String? = null,
     val country: String? = null,
     val ageRating: String? = null,
-    val type: String? = null,
+    val genre: String? = null,
 )

@@ -2,16 +2,19 @@ package com.example.cinemaaggregator.searchScreen.data
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
 import com.example.cinemaaggregator.common.network.NetworkClient
+import com.example.cinemaaggregator.searchScreen.data.network.FieldRequest
+import com.example.cinemaaggregator.searchScreen.data.network.FieldResponse
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesAndPageCount
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
 import com.example.cinemaaggregator.searchScreen.data.network.SearchByNameRequest
 import com.example.cinemaaggregator.searchScreen.domain.SearchScreenRepository
+import com.example.cinemaaggregator.searchScreen.domain.model.Field
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SearchScreenRepositoryImpl @Inject constructor(
-    private val networkCLient: NetworkClient
+    private val networkClient: NetworkClient
 ) : SearchScreenRepository {
 
     override fun search(text: String, page: Int): Flow<Pair<MoviesAndPageCount?, ErrorStatus?>> = flow {
@@ -20,7 +23,7 @@ class SearchScreenRepositoryImpl @Inject constructor(
             "query" to text
         )
 
-        val response = networkCLient.doRequest(
+        val response = networkClient.doRequest(
             SearchByNameRequest(options)
         )
 
@@ -42,5 +45,39 @@ class SearchScreenRepositoryImpl @Inject constructor(
             }
         }
 
+    }
+
+    override fun getCountries(): Flow<Pair<List<Field>?, ErrorStatus?>> = flow {
+        val response = networkClient.doRequest(FieldRequest("countries.name"))
+        when (response.resultCode) {
+            -1 -> {
+                emit(Pair(null, ErrorStatus.NO_CONNECTION))
+            }
+
+            200 -> {
+                emit(Pair((response as FieldResponse).names, null))
+            }
+
+            else -> {
+                emit(Pair(null, ErrorStatus.ERROR_OCCURRED))
+            }
+        }
+    }
+
+    override fun getGenres(): Flow<Pair<List<Field>?, ErrorStatus?>> = flow {
+        val response = networkClient.doRequest(FieldRequest("genres.name"))
+        when (response.resultCode) {
+            -1 -> {
+                emit(Pair(null, ErrorStatus.NO_CONNECTION))
+            }
+
+            200 -> {
+                emit(Pair((response as FieldResponse).names, null))
+            }
+
+            else -> {
+                emit(Pair(null, ErrorStatus.ERROR_OCCURRED))
+            }
+        }
     }
 }

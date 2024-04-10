@@ -74,16 +74,20 @@
 
     <Spinner
         android:id="@+id/countrySpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp0"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp8"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/countryTV"
         app:layout_constraintTop_toTopOf="@id/countryTV" />
 
     <Spinner
         android:id="@+id/genreSpinner"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp0"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp8"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/genreTV"
         app:layout_constraintTop_toTopOf="@id/genreTV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

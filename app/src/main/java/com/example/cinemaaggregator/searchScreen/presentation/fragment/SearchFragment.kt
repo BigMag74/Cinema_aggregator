@@ -29,6 +29,9 @@ class SearchFragment : Fragment() {
     }
     private val viewModel by viewModels<SearchViewModel> { component.viewModelFactory() }
 
+    private val countries: MutableList<String> by lazy { mutableListOf(getString(R.string.not_selected)) }
+    private val genres: MutableList<String> by lazy { mutableListOf(getString(R.string.not_selected)) }
+
     private val adapter: MovieRecyclerViewAdapter by lazy {
         MovieRecyclerViewAdapter(requireContext()) {
             val direction = SearchFragmentDirections.actionSearchFragmentToMovieScreenFragment(it)
@@ -45,6 +48,12 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.state.observe(viewLifecycleOwner) { renderState(it) }
+        viewModel.countiesState.observe(viewLifecycleOwner) {
+            countries.addAll(it)
+        }
+        viewModel.genresState.observe(viewLifecycleOwner) {
+            genres.addAll(it)
+        }
 
         binding.searchScreenEditText.addTextChangedListener(searchTextWatcher)
         binding.searchScreenRecyclerView.adapter = adapter
@@ -66,8 +75,9 @@ class SearchFragment : Fragment() {
             when (it.itemId) {
                 R.id.searchScreenToolbarFilterMenu -> {
                     val dialogFragment = FiltersDialogFragment(
-                        listOf("Не выбрано", "Russia", "USA"),
-                        listOf("Не выбрано", "comedy", "horror","test3","test4","test5")
+                        countries,
+                        genres,
+                        viewModel.getFilters(),
                     ) { filters -> viewModel.setFilters(filters) }
                     dialogFragment.show(childFragmentManager, "filters_dialog")
                     true

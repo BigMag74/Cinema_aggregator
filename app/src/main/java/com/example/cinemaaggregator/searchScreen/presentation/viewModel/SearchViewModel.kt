@@ -10,23 +10,37 @@ import com.example.cinemaaggregator.common.util.debounce
 import com.example.cinemaaggregator.searchScreen.domain.model.Filters
 import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesUseCase
 import com.example.cinemaaggregator.searchScreen.domain.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.domain.useCases.GetCountriesUseCase
+import com.example.cinemaaggregator.searchScreen.domain.useCases.GetGenresUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
     private val searchMoviesUseCase: SearchMoviesUseCase,
+    private val getCountriesUseCase: GetCountriesUseCase,
+    private val getGenresUseCase: GetGenresUseCase,
 ) : ViewModel() {
 
     private val _state = MutableLiveData<SearchState>()
     val state: LiveData<SearchState> = _state
+
+    private val _countiesState = MutableLiveData<List<String>>()
+    val countiesState: LiveData<List<String>> = _countiesState
+
+    private val _genresState = MutableLiveData<List<String>>()
+    val genresState: LiveData<List<String>> = _genresState
 
     private var page: Int = 1
     private var pages: Int = 1
     private var lastSearchRequestText = ""
     private val moviesList = mutableListOf<MoviePartialModel>()
     private var isNextPageLoading = false
-    private var filters: Filters? = null
+    private var filters = Filters()
+
+    init {
+        getFiltersFields()
+    }
 
     private fun setState(state: SearchState) {
         _state.value = state
@@ -36,10 +50,29 @@ class SearchViewModel @Inject constructor(
         this.filters = filters
     }
 
+    fun getFilters(): Filters {
+        return filters
+    }
+
     fun searchDebounced(changedText: String) {
         if (changedText != lastSearchRequestText) {
             movieSearchDebounce(changedText)
             lastSearchRequestText = changedText
+        }
+    }
+
+    fun getFiltersFields() {
+        if (genresState.value == null || countiesState.value == null) {
+            viewModelScope.launch {
+                getCountriesUseCase.execute().collect {
+                    if (it.first != null && it.first!!.isNotEmpty())
+                        _countiesState.value = it.first
+                }
+                getGenresUseCase.execute().collect {
+                    if (it.first != null && it.first!!.isNotEmpty())
+                        _genresState.value = it.first
+                }
+            }
         }
     }
 

@@ -23,7 +23,7 @@ class NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit
             .Builder()
-            .baseUrl("https://api.kinopoisk.dev/v1.4/")
+            .baseUrl("https://api.kinopoisk.dev/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

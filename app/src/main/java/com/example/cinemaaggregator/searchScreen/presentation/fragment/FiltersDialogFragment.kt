@@ -11,24 +11,34 @@ import com.example.cinemaaggregator.searchScreen.domain.model.Filters
 class FiltersDialogFragment(
     private val countries: List<String>,
     private val genres: List<String>,
+    private val filters: Filters,
     private val onPositiveButtonClicked: (Filters) -> Unit
 ) : DialogFragment() {
 
     private var _binding: DialogFiltersBinding? = null
     private val binding get() = _binding!!
 
+    private val countrySpinnerAdapter by lazy {
+        context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, countries) }
+    }
+
+    private val genreSpinnerAdapter by lazy {
+        context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, genres) }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
         _binding = DialogFiltersBinding.inflate(layoutInflater)
 
-        val countrySpinnerAdapter =
-            context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, countries) }
         countrySpinnerAdapter?.setDropDownViewResource(android.R.layout.select_dialog_singlechoice)
         binding.countrySpinner.adapter = countrySpinnerAdapter
 
-        val genreSpinnerAdapter =
-            context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, genres) }
         genreSpinnerAdapter?.setDropDownViewResource(android.R.layout.select_dialog_singlechoice)
         binding.genreSpinner.adapter = genreSpinnerAdapter
+
+        binding.yearET.setText(filters.year)
+        binding.ageRatingET.setText(filters.ageRating)
+        countrySpinnerAdapter?.getPosition(filters.country)?.let { binding.countrySpinner.setSelection(it) }
+        genreSpinnerAdapter?.getPosition(filters.genre)?.let { binding.countrySpinner.setSelection(it) }
 
         return AlertDialog.Builder(requireActivity())
             .setView(binding.root)

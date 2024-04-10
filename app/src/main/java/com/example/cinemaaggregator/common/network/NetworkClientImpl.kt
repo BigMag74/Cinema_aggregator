@@ -3,6 +3,8 @@ package com.example.cinemaaggregator.common.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.example.cinemaaggregator.searchScreen.data.network.FieldRequest
+import com.example.cinemaaggregator.searchScreen.data.network.FieldResponse
 import com.example.cinemaaggregator.searchScreen.data.network.SearchWithFiltersRequest
 import com.example.cinemaaggregator.searchScreen.data.network.SearchByNameRequest
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +34,17 @@ class NetworkClientImpl @Inject constructor(
             return withContext(Dispatchers.IO) {
                 try {
                     val response = kinopoiskApiService.searchWithFilters(dto.options)
+                    response.apply { resultCode = 200 }
+                } catch (e: Throwable) {
+                    Response().apply { resultCode = 500 }
+                }
+            }
+        }
+
+        if (dto is FieldRequest) {
+            return withContext(Dispatchers.IO) {
+                try {
+                    val response = FieldResponse(kinopoiskApiService.getFields(dto.field))
                     response.apply { resultCode = 200 }
                 } catch (e: Throwable) {
                     Response().apply { resultCode = 500 }
