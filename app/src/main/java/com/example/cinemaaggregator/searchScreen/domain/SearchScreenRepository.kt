@@ -9,6 +9,10 @@ interface SearchScreenRepository {
 
     fun search(text: String, page: Int): Flow<Pair<MoviesAndPageCount?, ErrorStatus?>>
 
+    fun searchWithFilters(
+        options: HashMap<String, String>,
+    ): Flow<Pair<MoviesAndPageCount?, ErrorStatus?>>
+
     fun getCountries(): Flow<Pair<List<Field>?, ErrorStatus?>>
 
     fun getGenres(): Flow<Pair<List<Field>?, ErrorStatus?>>

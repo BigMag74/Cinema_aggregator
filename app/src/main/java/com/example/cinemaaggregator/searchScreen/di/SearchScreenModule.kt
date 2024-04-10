@@ -7,10 +7,12 @@ import com.example.cinemaaggregator.searchScreen.data.SearchScreenRepositoryImpl
 import com.example.cinemaaggregator.searchScreen.domain.SearchScreenRepository
 import com.example.cinemaaggregator.searchScreen.domain.useCases.GetCountriesUseCase
 import com.example.cinemaaggregator.searchScreen.domain.useCases.GetGenresUseCase
-import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesUseCase
+import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesByFiltersUseCase
+import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesByNameUseCase
 import com.example.cinemaaggregator.searchScreen.domain.useCases.impl.GetCountriesUseCaseImpl
 import com.example.cinemaaggregator.searchScreen.domain.useCases.impl.GetGenresUseCaseImpl
-import com.example.cinemaaggregator.searchScreen.domain.useCases.impl.SearchMoviesUseCaseImpl
+import com.example.cinemaaggregator.searchScreen.domain.useCases.impl.SearchMoviesByFiltersUseCaseImpl
+import com.example.cinemaaggregator.searchScreen.domain.useCases.impl.SearchMoviesByNameUseCaseImpl
 import com.example.cinemaaggregator.searchScreen.presentation.viewModel.SearchViewModel
 import dagger.Binds
 import dagger.Module
@@ -30,7 +32,11 @@ interface SearchScreenModule {
 
     @Binds
     @ScreenScope
-    fun provideSearchMoviesUseCase(impl: SearchMoviesUseCaseImpl): SearchMoviesUseCase
+    fun provideSearchMoviesByNameUseCase(impl: SearchMoviesByNameUseCaseImpl): SearchMoviesByNameUseCase
+
+    @Binds
+    @ScreenScope
+    fun provideSearchMoviesByFiltersUseCase(impl: SearchMoviesByFiltersUseCaseImpl): SearchMoviesByFiltersUseCase
 
     @Binds
     @ScreenScope

@@ -38,7 +38,7 @@ class FiltersDialogFragment(
         binding.yearET.setText(filters.year)
         binding.ageRatingET.setText(filters.ageRating)
         countrySpinnerAdapter?.getPosition(filters.country)?.let { binding.countrySpinner.setSelection(it, true) }
-        genreSpinnerAdapter?.getPosition(filters.genre)?.let { binding.countrySpinner.setSelection(it, true) }
+        genreSpinnerAdapter?.getPosition(filters.genre)?.let { binding.genreSpinner.setSelection(it, true) }
 
         return AlertDialog.Builder(requireActivity())
             .setView(binding.root)

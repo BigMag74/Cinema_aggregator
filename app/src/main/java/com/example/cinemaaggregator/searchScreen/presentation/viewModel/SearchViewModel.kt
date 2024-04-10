@@ -1,5 +1,6 @@
 package com.example.cinemaaggregator.searchScreen.presentation.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,16 +9,18 @@ import com.example.cinemaaggregator.R
 import com.example.cinemaaggregator.common.network.ErrorStatus
 import com.example.cinemaaggregator.common.util.debounce
 import com.example.cinemaaggregator.searchScreen.domain.model.Filters
-import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesUseCase
+import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesByNameUseCase
 import com.example.cinemaaggregator.searchScreen.domain.model.MoviePartialModel
 import com.example.cinemaaggregator.searchScreen.domain.useCases.GetCountriesUseCase
 import com.example.cinemaaggregator.searchScreen.domain.useCases.GetGenresUseCase
+import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesByFiltersUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
-    private val searchMoviesUseCase: SearchMoviesUseCase,
+    private val searchMoviesByNameUseCase: SearchMoviesByNameUseCase,
+    private val searchMoviesByFiltersUseCase: SearchMoviesByFiltersUseCase,
     private val getCountriesUseCase: GetCountriesUseCase,
     private val getGenresUseCase: GetGenresUseCase,
 ) : ViewModel() {
@@ -36,10 +39,13 @@ class SearchViewModel @Inject constructor(
     private var lastSearchRequestText = ""
     private val moviesList = mutableListOf<MoviePartialModel>()
     private var isNextPageLoading = false
-    private var filters = Filters()
+    private var filters = Filters(country = "Russia")
+
+    private var isFiltersRequest = true
 
     init {
         getFiltersFields()
+        searchByFiltersNewRequest(filters)
     }
 
     private fun setState(state: SearchState) {
@@ -54,14 +60,7 @@ class SearchViewModel @Inject constructor(
         return filters
     }
 
-    fun searchDebounced(changedText: String) {
-        if (changedText != lastSearchRequestText) {
-            movieSearchDebounce(changedText)
-            lastSearchRequestText = changedText
-        }
-    }
-
-    fun getFiltersFields() {
+    private fun getFiltersFields() {
         if (genresState.value == null || countiesState.value == null) {
             viewModelScope.launch {
                 getCountriesUseCase.execute().collect {
@@ -76,18 +75,25 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private val movieSearchDebounce = debounce<String>(DELAY_MILLIS, viewModelScope, true) {
-        page = 1
-        searchNewRequest(it, page)
+    fun searchByNameDebounced(changedText: String) {
+        if (changedText != lastSearchRequestText) {
+            movieSearchDebounce(changedText)
+            lastSearchRequestText = changedText
+        }
     }
 
-    private fun searchNewRequest(text: String, page: Int) {
+    private val movieSearchDebounce = debounce<String>(DELAY_MILLIS, viewModelScope, true) {
+        page = 1
+        searchByNameNewRequest(it, page)
+    }
+
+    private fun searchByNameNewRequest(text: String, page: Int) {
         if (text.isBlank()) {
             return
         }
         setState(SearchState.Loading)
         viewModelScope.launch {
-            searchMoviesUseCase.execute(text, page).collect {
+            searchMoviesByNameUseCase.execute(text, page).collect {
                 when (it.second) {
                     ErrorStatus.NO_CONNECTION -> {
                         setState(SearchState.Error(R.string.check_internet_connection))
@@ -104,12 +110,12 @@ class SearchViewModel @Inject constructor(
                             moviesList.clear()
                             moviesList.addAll(it.first!!.movies)
                             pages = it.first!!.pageCount
+                            isFiltersRequest = false
                             setState(SearchState.Content(moviesList))
                         }
                     }
                 }
             }
-
         }
     }
 
@@ -118,16 +124,57 @@ class SearchViewModel @Inject constructor(
             isNextPageLoading = true
             viewModelScope.launch {
                 val resultDeferred = async {
-                    searchMoviesUseCase.execute(lastSearchRequestText, page + 1).collect {
-                        if (it.first != null) {
-                            page++
-                            moviesList.addAll(it.first!!.movies)
-                            setState(SearchState.Content(moviesList))
+                    if (isFiltersRequest) {
+                        searchMoviesByFiltersUseCase.execute(filters, page + 1).collect {
+                            if (it.first != null) {
+                                page++
+                                moviesList.addAll(it.first!!.movies)
+                                setState(SearchState.Content(moviesList))
+                            }
+                        }
+                    } else {
+                        searchMoviesByNameUseCase.execute(lastSearchRequestText, page + 1).collect {
+                            if (it.first != null) {
+                                page++
+                                moviesList.addAll(it.first!!.movies)
+                                setState(SearchState.Content(moviesList))
+                            }
                         }
                     }
                 }
                 resultDeferred.await()
                 isNextPageLoading = false
+            }
+        }
+    }
+
+    fun searchByFiltersNewRequest(filters: Filters) {
+        setState(SearchState.Loading)
+        Log.e("MyTag",filters.toString())
+        page = 1
+        viewModelScope.launch {
+            searchMoviesByFiltersUseCase.execute(filters, page).collect {
+                when (it.second) {
+                    ErrorStatus.NO_CONNECTION -> {
+                        setState(SearchState.Error(R.string.check_internet_connection))
+                    }
+
+                    ErrorStatus.ERROR_OCCURRED -> {
+                        setState(SearchState.Error(R.string.server_error))
+                    }
+
+                    null -> {
+                        if (it.first!!.movies.isEmpty()) {
+                            setState(SearchState.Empty)
+                        } else {
+                            moviesList.clear()
+                            moviesList.addAll(it.first!!.movies)
+                            pages = it.first!!.pageCount
+                            isFiltersRequest = true
+                            setState(SearchState.Content(moviesList))
+                        }
+                    }
+                }
             }
         }
     }

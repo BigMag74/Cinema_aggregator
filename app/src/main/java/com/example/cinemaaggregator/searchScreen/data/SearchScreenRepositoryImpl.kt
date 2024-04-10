@@ -7,6 +7,7 @@ import com.example.cinemaaggregator.searchScreen.data.network.FieldResponse
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesAndPageCount
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
 import com.example.cinemaaggregator.searchScreen.data.network.SearchByNameRequest
+import com.example.cinemaaggregator.searchScreen.data.network.SearchWithFiltersRequest
 import com.example.cinemaaggregator.searchScreen.domain.SearchScreenRepository
 import com.example.cinemaaggregator.searchScreen.domain.model.Field
 import kotlinx.coroutines.flow.Flow
@@ -23,9 +24,7 @@ class SearchScreenRepositoryImpl @Inject constructor(
             "query" to text
         )
 
-        val response = networkClient.doRequest(
-            SearchByNameRequest(options)
-        )
+        val response = networkClient.doRequest(SearchByNameRequest(options))
 
         when (response.resultCode) {
             -1 -> {
@@ -45,6 +44,30 @@ class SearchScreenRepositoryImpl @Inject constructor(
             }
         }
 
+    }
+
+    override fun searchWithFilters(
+        options: HashMap<String, String>,
+    ): Flow<Pair<MoviesAndPageCount?, ErrorStatus?>> = flow {
+        val response = networkClient.doRequest(SearchWithFiltersRequest(options))
+
+        when (response.resultCode) {
+            -1 -> {
+                emit(Pair(null, ErrorStatus.NO_CONNECTION))
+            }
+
+            200 -> {
+                val moviesAndPageCount = MoviesAndPageCount(
+                    (response as MoviesSearchResponse).docs,
+                    response.pages
+                )
+                emit(Pair(moviesAndPageCount, null))
+            }
+
+            else -> {
+                emit(Pair(null, ErrorStatus.ERROR_OCCURRED))
+            }
+        }
     }
 
     override fun getCountries(): Flow<Pair<List<Field>?, ErrorStatus?>> = flow {

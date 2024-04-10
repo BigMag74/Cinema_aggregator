@@ -78,7 +78,10 @@ class SearchFragment : Fragment() {
                         countries,
                         genres,
                         viewModel.getFilters(),
-                    ) { filters -> viewModel.setFilters(filters) }
+                    ) { filters ->
+                        viewModel.setFilters(filters)
+                        viewModel.searchByFiltersNewRequest(filters)
+                    }
                     dialogFragment.show(childFragmentManager, "filters_dialog")
                     true
                 }
@@ -94,7 +97,7 @@ class SearchFragment : Fragment() {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            viewModel.searchDebounced(s.toString())
+            viewModel.searchByNameDebounced(s.toString())
         }
 
         override fun afterTextChanged(s: Editable?) = Unit
@@ -131,10 +134,6 @@ class SearchFragment : Fragment() {
         binding.searchScreenRecyclerView.visibility = View.VISIBLE
         adapter.items = state.movies
         adapter.notifyDataSetChanged()
-
-        // Если был выполнен searchNewRequest()
-        if (adapter.items[0].id != state.movies[0].id)
-            binding.searchScreenRecyclerView.scrollToPosition(0)
     }
 
     private fun showEmpty() {
