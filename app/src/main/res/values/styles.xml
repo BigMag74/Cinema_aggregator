@@ -13,6 +13,19 @@
     <style name="TitleText">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/sp20</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BaseText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp16</item>
+    </style>
+
+    <style name="movieScreenBaseStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp16</item>
+        <item name="android:layout_margin">@dimen/dp8</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="HintText">

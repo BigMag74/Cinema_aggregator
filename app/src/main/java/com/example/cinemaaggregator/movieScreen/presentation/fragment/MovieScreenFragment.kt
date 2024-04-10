@@ -22,6 +22,5 @@ class MovieScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.movieTitle.text = args.movieId.toString()
     }
 }

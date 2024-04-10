@@ -1,16 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/movieTitle"
-        android:text="Movie Screen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postersRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:layout_margin="@dimen/dp8"
+            android:orientation="horizontal"
+            app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleTV" />
+
+        <TextView
+            android:id="@+id/titleTV"
+            style="@style/TitleText"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp8"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Человек паук" />
+
+        <TextView
+            android:id="@+id/yearLeft"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Год \nпроизводства"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postersRecyclerView" />
+
+        <TextView
+            android:id="@+id/yearRight"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/countryRight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yearLeft"
+            app:layout_constraintTop_toBottomOf="@+id/postersRecyclerView"
+            tools:text="2002" />
+
+        <TextView
+            android:id="@+id/countryLeft"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="страна"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yearLeft" />
+
+        <TextView
+            android:id="@+id/countryRight"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yearLeft"
+            app:layout_constraintTop_toBottomOf="@+id/yearLeft"
+            tools:text="США, Россия" />
+
+        <TextView
+            android:id="@+id/genreLeft"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Жанр"
+            app:layout_constraintBaseline_toBaselineOf="@id/genreRight"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/genreRight"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yearLeft"
+            app:layout_constraintTop_toBottomOf="@+id/countryRight"
+            tools:text="Драмма, фентези, комедия" />
+
+        <TextView
+            android:id="@+id/directorLeft"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Режиссер"
+            app:layout_constraintBaseline_toBaselineOf="@id/directorRight"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/directorRight"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yearLeft"
+            app:layout_constraintTop_toBottomOf="@+id/genreRight"
+            tools:text="Сэм рейми" />
+
+        <TextView
+            android:id="@+id/operatorLeft"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Оператор"
+            app:layout_constraintBaseline_toBaselineOf="@id/operatorRight"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/operatorRight"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yearLeft"
+            app:layout_constraintTop_toBottomOf="@+id/directorRight"
+            tools:text="Дон Бёрджесс" />
+
+        <TextView
+            android:id="@+id/ageRatingLeft"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Возраст"
+            app:layout_constraintBaseline_toBaselineOf="@id/ageRatingRight"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/ageRatingRight"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yearLeft"
+            app:layout_constraintTop_toBottomOf="@+id/operatorRight"
+            tools:text="12+" />
+
+        <TextView
+            android:id="@+id/timeLeft"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Время"
+            app:layout_constraintBaseline_toBaselineOf="@id/timeRight"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/timeRight"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yearLeft"
+            app:layout_constraintTop_toBottomOf="@+id/ageRatingRight"
+            tools:text="121 мин." />
+
+        <TextView
+            android:id="@+id/ratingLeft"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="рейтинг"
+            app:layout_constraintBaseline_toBaselineOf="@id/ratingRight"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/ratingRight"
+            style="@style/movieScreenBaseStyle"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yearLeft"
+            app:layout_constraintTop_toBottomOf="@+id/timeRight"
+            tools:text="7.7" />
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/BaseText"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ratingRight"
+            tools:text="Питер Паркер – обыкновенный школьник. Однажды он отправился с классом на экскурсию, где его кусает странный паук-мутант. Через время парень почувствовал в себе нечеловеческую силу и ловкость в движении, а главное – умение лазать по стенам и метать стальную паутину. Свои способности он направляет на защиту слабых. Так Питер становится настоящим супергероем по имени Человек-паук, который помогает людям и борется с преступностью. Но там, где есть супергерой, рано или поздно всегда объявляется и суперзлодей..." />
+
+        <TextView
+            android:id="@+id/actorsTV"
+            style="@style/TitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp16"
+            android:text="Актеры"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actorsRV"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="@dimen/dp16"
+            android:background="@drawable/rectangle_with_corners"
+            android:backgroundTint="@color/light_gray"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/actorsTV" />
+
+        <TextView
+            android:id="@+id/reviewsTV"
+            style="@style/TitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp16"
+            android:text="Отзывы"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/actorsRV" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewsRV"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="@dimen/dp16"
+            android:background="@drawable/rectangle_with_corners"
+            android:backgroundTint="@color/light_gray"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/reviewsTV" />
+
+        <TextView
+            android:id="@+id/episodesTV"
+            style="@style/TitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp16"
+            android:text="Серии"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reviewsRV" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/episodesRV"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="@dimen/dp16"
+            android:background="@drawable/rectangle_with_corners"
+            android:backgroundTint="@color/light_gray"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/episodesTV" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
