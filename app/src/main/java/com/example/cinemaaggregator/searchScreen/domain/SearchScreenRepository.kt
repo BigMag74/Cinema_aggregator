@@ -16,4 +16,7 @@ interface SearchScreenRepository {
     fun getCountries(): Flow<Pair<List<Field>?, ErrorStatus?>>
 
     fun getGenres(): Flow<Pair<List<Field>?, ErrorStatus?>>
+
+    fun getSearchHistory(): ArrayList<String>
+    fun addFieldToSearchHistory(field: String)
 }

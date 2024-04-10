@@ -1,5 +1,6 @@
 package com.example.cinemaaggregator.searchScreen.di
 
+import android.content.SharedPreferences
 import com.example.cinemaaggregator.common.DI
 import com.example.cinemaaggregator.common.di.ScreenScope
 import com.example.cinemaaggregator.common.di.ViewModelFactory
@@ -18,7 +19,12 @@ interface SearchScreenComponent {
 
         @BindsInstance
         fun kinopoiskApiService(
-            networkClient: NetworkClient
+            networkClient: NetworkClient,
+        ): Builder
+
+        @BindsInstance
+        fun searchHistoryDataSource(
+            sharedPreferences: SharedPreferences
         ): Builder
 
         fun build(): SearchScreenComponent
@@ -27,7 +33,11 @@ interface SearchScreenComponent {
     companion object {
 
         fun create() = with(DI.appComponent) {
-            DaggerSearchScreenComponent.builder().kinopoiskApiService(networkClient()).build()
+            DaggerSearchScreenComponent
+                .builder()
+                .kinopoiskApiService(networkClient())
+                .searchHistoryDataSource(getSharedPreferences())
+                .build()
         }
     }
 }

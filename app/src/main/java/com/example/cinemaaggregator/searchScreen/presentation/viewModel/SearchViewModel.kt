@@ -10,8 +10,10 @@ import com.example.cinemaaggregator.common.util.debounce
 import com.example.cinemaaggregator.searchScreen.domain.model.Filters
 import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesByNameUseCase
 import com.example.cinemaaggregator.searchScreen.domain.model.MoviePartialModel
+import com.example.cinemaaggregator.searchScreen.domain.useCases.AddFieldToSearchHistoryUseCase
 import com.example.cinemaaggregator.searchScreen.domain.useCases.GetCountriesUseCase
 import com.example.cinemaaggregator.searchScreen.domain.useCases.GetGenresUseCase
+import com.example.cinemaaggregator.searchScreen.domain.useCases.GetSearchHistoryUseCase
 import com.example.cinemaaggregator.searchScreen.domain.useCases.SearchMoviesByFiltersUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -22,6 +24,8 @@ class SearchViewModel @Inject constructor(
     private val searchMoviesByFiltersUseCase: SearchMoviesByFiltersUseCase,
     private val getCountriesUseCase: GetCountriesUseCase,
     private val getGenresUseCase: GetGenresUseCase,
+    private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
+    private val addFieldToSearchHistoryUseCase: AddFieldToSearchHistoryUseCase,
 ) : ViewModel() {
 
     private val _state = MutableLiveData<SearchState>()
@@ -36,6 +40,9 @@ class SearchViewModel @Inject constructor(
     private val _filtersState = MutableLiveData<FiltersState>(FiltersState.Unavailable)
     val filtersState: LiveData<FiltersState> = _filtersState
 
+    private val _searchHistoryState = MutableLiveData<List<String>>()
+    val searchHistoryState: LiveData<List<String>> = _searchHistoryState
+
     private var page: Int = 1
     private var pages: Int = 1
     private var lastSearchRequestText = ""
@@ -46,6 +53,7 @@ class SearchViewModel @Inject constructor(
     private var isFiltersRequest = true
 
     init {
+        getSearchHistory()
         getFiltersFields()
         searchByFiltersNewRequest()
     }
@@ -71,6 +79,10 @@ class SearchViewModel @Inject constructor(
             _filtersState.value = FiltersState.Empty
         else
             _filtersState.value = FiltersState.Content
+    }
+
+    fun getSearchHistory() {
+        _searchHistoryState.value = getSearchHistoryUseCase.execute()
     }
 
     private fun getFiltersFields() {
@@ -106,6 +118,7 @@ class SearchViewModel @Inject constructor(
         if (text.isBlank()) {
             return
         }
+        addFieldToSearchHistoryUseCase.execute(text)
         setState(SearchState.Loading)
         viewModelScope.launch {
             searchMoviesByNameUseCase.execute(text, page).collect {

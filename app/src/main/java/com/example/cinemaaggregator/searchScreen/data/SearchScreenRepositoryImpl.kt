@@ -2,6 +2,7 @@ package com.example.cinemaaggregator.searchScreen.data
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
 import com.example.cinemaaggregator.common.network.NetworkClient
+import com.example.cinemaaggregator.searchScreen.data.dataSource.SearchHistoryDataSource
 import com.example.cinemaaggregator.searchScreen.data.network.FieldRequest
 import com.example.cinemaaggregator.searchScreen.data.network.FieldResponse
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesAndPageCount
@@ -15,7 +16,8 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SearchScreenRepositoryImpl @Inject constructor(
-    private val networkClient: NetworkClient
+    private val networkClient: NetworkClient,
+    private val searchHistoryDataSource: SearchHistoryDataSource,
 ) : SearchScreenRepository {
 
     override fun search(text: String, page: Int): Flow<Pair<MoviesAndPageCount?, ErrorStatus?>> = flow {
@@ -102,5 +104,13 @@ class SearchScreenRepositoryImpl @Inject constructor(
                 emit(Pair(null, ErrorStatus.ERROR_OCCURRED))
             }
         }
+    }
+
+    override fun getSearchHistory(): ArrayList<String> {
+        return searchHistoryDataSource.getSearchHistory()
+    }
+
+    override fun addFieldToSearchHistory(field: String) {
+        searchHistoryDataSource.addFieldToSearchHistory(field)
     }
 }

@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,6 +19,7 @@ import com.example.cinemaaggregator.R
 import com.example.cinemaaggregator.databinding.FragmentSearchBinding
 import com.example.cinemaaggregator.searchScreen.di.SearchScreenComponent
 import com.example.cinemaaggregator.searchScreen.presentation.MovieRecyclerViewAdapter
+import com.example.cinemaaggregator.searchScreen.presentation.SearchHistoryAdapter
 import com.example.cinemaaggregator.searchScreen.presentation.viewModel.FiltersState
 import com.example.cinemaaggregator.searchScreen.presentation.viewModel.SearchState
 import com.example.cinemaaggregator.searchScreen.presentation.viewModel.SearchViewModel
@@ -34,10 +37,15 @@ class SearchFragment : Fragment() {
     private val countries: MutableList<String> by lazy { mutableListOf(getString(R.string.not_selected)) }
     private val genres: MutableList<String> by lazy { mutableListOf(getString(R.string.not_selected)) }
 
-    private val adapter: MovieRecyclerViewAdapter by lazy {
+    private val adapterMovies: MovieRecyclerViewAdapter by lazy {
         MovieRecyclerViewAdapter(requireContext()) {
             val direction = SearchFragmentDirections.actionSearchFragmentToMovieScreenFragment(it)
             findNavController().navigate(direction)
+        }
+    }
+    private val adapterSearchHistory: SearchHistoryAdapter by lazy {
+        SearchHistoryAdapter(requireContext()) {
+            binding.searchScreenEditText.setText(it)
         }
     }
 
@@ -51,6 +59,10 @@ class SearchFragment : Fragment() {
 
         viewModel.state.observe(viewLifecycleOwner) { renderState(it) }
         viewModel.filtersState.observe(viewLifecycleOwner) { renderFiltersState(it) }
+        viewModel.searchHistoryState.observe(viewLifecycleOwner) {
+            adapterSearchHistory.items = it
+            adapterSearchHistory.notifyDataSetChanged()
+        }
         viewModel.countiesState.observe(viewLifecycleOwner) {
             countries.addAll(it)
         }
@@ -59,39 +71,58 @@ class SearchFragment : Fragment() {
         }
 
         binding.searchScreenEditText.addTextChangedListener(searchTextWatcher)
-        binding.searchScreenRecyclerView.adapter = adapter
+        binding.searchScreenRecyclerView.adapter = adapterMovies
+        binding.searchHistoryRV.adapter = adapterSearchHistory
+        binding.searchScreenRecyclerView.addOnScrollListener(onScrollListener)
+        binding.searchToolbar.setOnMenuItemClickListener(menuItemClickListener)
+        binding.searchFormButton.setOnClickListener {
+            searchByNameDebounced(
+                binding.searchScreenEditText.text.toString()
+            )
+        }
+        binding.searchScreenEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchScreenEditText.text.isNotEmpty()) {
+                searchByNameDebounced(binding.searchScreenEditText.text.toString())
+            }
+            false
+        }
+    }
 
-        binding.searchScreenRecyclerView.addOnScrollListener(object : OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    val pos = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val itemsCount = adapter.itemCount
-                    if ((itemsCount > 0) && (pos >= itemsCount - 1)) {
-                        viewModel.searchSameRequest()
-                    }
+    private fun searchByNameDebounced(text: String) {
+        viewModel.searchByNameDebounced(text)
+        binding.searchHistoryRV.visibility = View.GONE
+    }
+
+    private val onScrollListener = object : OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (dy > 0) {
+                val pos = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                val itemsCount = adapterMovies.itemCount
+                if ((itemsCount > 0) && (pos >= itemsCount - 1)) {
+                    viewModel.searchSameRequest()
                 }
             }
-        })
+        }
+    }
 
-        binding.searchToolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.searchScreenToolbarFilterMenu -> {
-                    val dialogFragment = FiltersDialogFragment(
-                        countries,
-                        genres,
-                        viewModel.getFilters(),
-                    ) { filters ->
-                        viewModel.setFilters(filters)
-                        viewModel.searchByFiltersNewRequest()
-                    }
-                    dialogFragment.show(childFragmentManager, "filters_dialog")
-                    true
+    private val menuItemClickListener = { it: MenuItem ->
+        when (it.itemId) {
+            R.id.searchScreenToolbarFilterMenu -> {
+                val dialogFragment = FiltersDialogFragment(
+                    countries,
+                    genres,
+                    viewModel.getFilters(),
+                ) { filters ->
+                    viewModel.setFilters(filters)
+                    viewModel.searchByFiltersNewRequest()
                 }
+                dialogFragment.show(childFragmentManager, "filters_dialog")
+                true
+            }
 
-                else -> {
-                    true
-                }
+            else -> {
+                true
             }
         }
     }
@@ -100,12 +131,14 @@ class SearchFragment : Fragment() {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            viewModel.searchByNameDebounced(s.toString())
-            if (!s.isNullOrEmpty())
+            searchByNameDebounced(s.toString())
+            viewModel.getSearchHistory()
+            if (!s.isNullOrEmpty()) {
                 viewModel.disableFiltersIcon()
-            else {
+                binding.searchHistoryRV.visibility = View.VISIBLE
+            } else {
                 viewModel.enableFiltersIcon()
-                viewModel.searchByFiltersNewRequest()
+                binding.searchHistoryRV.visibility = View.GONE
             }
         }
 
@@ -165,8 +198,8 @@ class SearchFragment : Fragment() {
         binding.internetIssuesPlaceholderIV.visibility = View.GONE
         binding.internetIssuesPlaceholderTV.visibility = View.GONE
         binding.searchScreenRecyclerView.visibility = View.VISIBLE
-        adapter.items = state.movies
-        adapter.notifyDataSetChanged()
+        adapterMovies.items = state.movies
+        adapterMovies.notifyDataSetChanged()
     }
 
     private fun showEmpty() {
