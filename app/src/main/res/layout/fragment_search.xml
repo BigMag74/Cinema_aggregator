@@ -55,7 +55,7 @@
         android:paddingTop="@dimen/dp8"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/searchScreenPaginationProgressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/container"
@@ -77,18 +77,6 @@
         app:layout_constraintTop_toTopOf="@+id/container"
         tools:itemCount="5"
         tools:listitem="@layout/item_search_history" />
-
-    <ProgressBar
-        android:id="@+id/searchScreenPaginationProgressBar"
-        android:layout_width="@dimen/dp48"
-        android:layout_height="@dimen/dp48"
-        android:layout_margin="@dimen/dp16"
-        android:indeterminateTint="@color/black"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchScreenRecyclerView" />
 
     <ProgressBar
         android:id="@+id/searchScreenMainProgressBar"

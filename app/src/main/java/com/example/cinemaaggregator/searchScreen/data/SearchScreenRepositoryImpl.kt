@@ -5,7 +5,7 @@ import com.example.cinemaaggregator.common.network.NetworkClient
 import com.example.cinemaaggregator.searchScreen.data.dataSource.SearchHistoryDataSource
 import com.example.cinemaaggregator.searchScreen.data.network.FieldRequest
 import com.example.cinemaaggregator.searchScreen.data.network.FieldResponse
-import com.example.cinemaaggregator.searchScreen.data.network.MoviesAndPageCount
+import com.example.cinemaaggregator.searchScreen.domain.model.MoviesAndPageCount
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
 import com.example.cinemaaggregator.searchScreen.data.network.SearchByNameRequest
 import com.example.cinemaaggregator.searchScreen.data.network.SearchWithFiltersRequest

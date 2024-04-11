@@ -1,8 +1,10 @@
 package com.example.cinemaaggregator.common.network
 
+import com.example.cinemaaggregator.movieScreen.domain.model.MovieByIdResponse
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
 import com.example.cinemaaggregator.searchScreen.domain.model.Field
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
@@ -22,4 +24,7 @@ interface KinopoiskApiService {
     suspend fun getFields(
         @Query("field") field: String
     ): List<Field>
+
+    @GET("v1.4/movie/{movieId}")
+    suspend fun getMovieById(@Path("movieId") movieId: Int): MovieByIdResponse
 }

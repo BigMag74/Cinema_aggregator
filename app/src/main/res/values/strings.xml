@@ -16,4 +16,13 @@
     <string name="server_error">Ошибка сервера</string>
     <string name="check_internet_connection">Проверьте соединение с интернетом</string>
     <string name="not_selected">Не выбрано</string>
+    <string name="information_not_found">информация отсутствует</string>
+    <string name="production_year">Год \nпроизводства</string>
+    <string name="director">Режиссер</string>
+    <string name="operator">Оператор</string>
+    <string name="duration">Длительность</string>
+    <string name="rating">Рейтинг</string>
+    <string name="actors">Актеры</string>
+    <string name="reviews">Отзывы</string>
+    <string name="episodes">Серии</string>
 </resources>

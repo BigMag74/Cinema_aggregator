@@ -18,7 +18,7 @@
             app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTV" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/titleTV"
@@ -29,7 +29,7 @@
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/postersRecyclerView"
             tools:text="Человек паук" />
 
         <TextView
@@ -37,9 +37,9 @@
             style="@style/movieScreenBaseStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Год \nпроизводства"
+            android:text="@string/production_year"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/postersRecyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/titleTV" />
 
         <TextView
             android:id="@+id/yearRight"
@@ -49,7 +49,7 @@
             app:layout_constraintBottom_toTopOf="@+id/countryRight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/yearLeft"
-            app:layout_constraintTop_toBottomOf="@+id/postersRecyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/titleTV"
             tools:text="2002" />
 
         <TextView
@@ -57,7 +57,7 @@
             style="@style/movieScreenBaseStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="страна"
+            android:text="@string/country"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/yearLeft" />
 
@@ -76,7 +76,7 @@
             style="@style/movieScreenBaseStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Жанр"
+            android:text="@string/genre"
             app:layout_constraintBaseline_toBaselineOf="@id/genreRight"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -95,7 +95,7 @@
             style="@style/movieScreenBaseStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Режиссер"
+            android:text="@string/director"
             app:layout_constraintBaseline_toBaselineOf="@id/directorRight"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -114,7 +114,7 @@
             style="@style/movieScreenBaseStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Оператор"
+            android:text="@string/operator"
             app:layout_constraintBaseline_toBaselineOf="@id/operatorRight"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -133,7 +133,7 @@
             style="@style/movieScreenBaseStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Возраст"
+            android:text="@string/age_rating"
             app:layout_constraintBaseline_toBaselineOf="@id/ageRatingRight"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -152,7 +152,7 @@
             style="@style/movieScreenBaseStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Время"
+            android:text="@string/duration"
             app:layout_constraintBaseline_toBaselineOf="@id/timeRight"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -171,7 +171,7 @@
             style="@style/movieScreenBaseStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="рейтинг"
+            android:text="@string/rating"
             app:layout_constraintBaseline_toBaselineOf="@id/ratingRight"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -186,11 +186,14 @@
             tools:text="7.7" />
 
         <TextView
+            android:textStyle="italic"
             android:id="@+id/description"
             style="@style/BaseText"
             android:layout_width="@dimen/dp0"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp8"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp32"
+            android:layout_marginEnd="@dimen/dp8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ratingRight"
@@ -202,7 +205,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp16"
-            android:text="Актеры"
+            android:text="@string/actors"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description" />
 
@@ -223,7 +226,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp16"
-            android:text="Отзывы"
+            android:text="@string/reviews"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/actorsRV" />
 
@@ -244,7 +247,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp16"
-            android:text="Серии"
+            android:text="@string/episodes"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/reviewsRV" />
 

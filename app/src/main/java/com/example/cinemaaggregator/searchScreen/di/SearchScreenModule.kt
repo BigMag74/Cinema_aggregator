@@ -30,7 +30,7 @@ interface SearchScreenModule {
     @Binds
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
-    fun provideViewModel(impl: SearchViewModel): ViewModel
+    fun provideSearchScreenViewModel(impl: SearchViewModel): ViewModel
 
     @Binds
     @ScreenScope

@@ -29,9 +29,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val component by lazy {
-        SearchScreenComponent.create()
-    }
+    private val component by lazy { SearchScreenComponent.create() }
     private val viewModel by viewModels<SearchViewModel> { component.viewModelFactory() }
 
     private val countries: MutableList<String> by lazy { mutableListOf(getString(R.string.not_selected)) }

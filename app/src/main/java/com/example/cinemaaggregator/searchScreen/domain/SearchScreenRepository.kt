@@ -1,7 +1,7 @@
 package com.example.cinemaaggregator.searchScreen.domain
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
-import com.example.cinemaaggregator.searchScreen.data.network.MoviesAndPageCount
+import com.example.cinemaaggregator.searchScreen.domain.model.MoviesAndPageCount
 import com.example.cinemaaggregator.searchScreen.domain.model.Field
 import kotlinx.coroutines.flow.Flow
 
