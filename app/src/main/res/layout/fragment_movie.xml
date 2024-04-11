@@ -186,7 +186,6 @@
             tools:text="7.7" />
 
         <TextView
-            android:textStyle="italic"
             android:id="@+id/description"
             style="@style/BaseText"
             android:layout_width="@dimen/dp0"
@@ -194,6 +193,7 @@
             android:layout_marginStart="@dimen/dp8"
             android:layout_marginTop="@dimen/dp32"
             android:layout_marginEnd="@dimen/dp8"
+            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ratingRight"
@@ -210,13 +210,14 @@
             app:layout_constraintTop_toBottomOf="@id/description" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:background="@drawable/rectangle_with_corners"
             android:id="@+id/actorsRV"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_margin="@dimen/dp16"
-            android:background="@drawable/rectangle_with_corners"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp16"
+            tools:listitem="@layout/item_actor"
             android:backgroundTint="@color/light_gray"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/actorsTV" />
 

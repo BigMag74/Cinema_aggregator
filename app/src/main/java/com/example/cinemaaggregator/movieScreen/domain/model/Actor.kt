@@ -1,8 +1,7 @@
 package com.example.cinemaaggregator.movieScreen.domain.model
 
-data class Person(
+data class Actor(
     val name: String?,
-    val enProfession: String?,
-    val photo: String?,
+    val photoUrl: String?,
     val description: String?,
 )

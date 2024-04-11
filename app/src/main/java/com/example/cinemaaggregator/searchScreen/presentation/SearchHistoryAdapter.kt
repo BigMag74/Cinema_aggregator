@@ -1,6 +1,5 @@
 package com.example.cinemaaggregator.searchScreen.presentation
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.cinemaaggregator.databinding.ItemSearchHistoryBinding
 
 class SearchHistoryAdapter(
-    private val context: Context,
     private val onItemClickListener: (item: String) -> Unit = {}
 ) : Adapter<SearchHistoryViewHolder>() {
 

@@ -18,5 +18,5 @@ data class MovieByIdResponse(
     val poster: Poster?,
     val genres: List<Genre>?,
     val rating: Rating?,
-    val persons:List<Person>,
+    val persons:List<Person>?,
 ) : Response()

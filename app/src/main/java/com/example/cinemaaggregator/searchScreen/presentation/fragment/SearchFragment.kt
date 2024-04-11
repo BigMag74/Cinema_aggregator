@@ -42,7 +42,7 @@ class SearchFragment : Fragment() {
         }
     }
     private val adapterSearchHistory: SearchHistoryAdapter by lazy {
-        SearchHistoryAdapter(requireContext()) {
+        SearchHistoryAdapter() {
             binding.searchScreenEditText.setText(it)
         }
     }
