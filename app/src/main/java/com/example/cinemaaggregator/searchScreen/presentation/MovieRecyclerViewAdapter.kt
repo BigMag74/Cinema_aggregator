@@ -47,7 +47,7 @@ class MovieViewHolder(
         Glide.with(context)
             .load(item.poster?.url)
             .centerCrop()
-            .placeholder(context.getDrawable(R.drawable.placeholder_poster))
+            .placeholder(R.drawable.placeholder_poster)
             .into(binding.poster)
     }
 }

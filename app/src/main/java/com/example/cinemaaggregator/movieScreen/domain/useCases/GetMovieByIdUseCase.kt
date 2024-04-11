@@ -1,7 +1,7 @@
 package com.example.cinemaaggregator.movieScreen.domain.useCases
 
 import com.example.cinemaaggregator.common.network.ErrorStatus
-import com.example.cinemaaggregator.movieScreen.domain.model.MovieByIdResponse
+import com.example.cinemaaggregator.movieScreen.data.network.MovieByIdResponse
 
 interface GetMovieByIdUseCase {
 

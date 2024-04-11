@@ -6,7 +6,9 @@ import com.example.cinemaaggregator.common.di.ViewModelKey
 import com.example.cinemaaggregator.movieScreen.data.MovieScreenRepositoryImpl
 import com.example.cinemaaggregator.movieScreen.domain.MovieScreenRepository
 import com.example.cinemaaggregator.movieScreen.domain.useCases.GetMovieByIdUseCase
+import com.example.cinemaaggregator.movieScreen.domain.useCases.GetPostersByIdUseCase
 import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetMovieByIdUseCaseImpl
+import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetPostersByIdUseCaseImpl
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenViewModel
 import dagger.Binds
 import dagger.Module
@@ -26,5 +28,9 @@ interface MovieScreenModule {
 
     @Binds
     @ScreenScope
-    fun provideGetMovieByIdUseCase(idUseCase: GetMovieByIdUseCaseImpl): GetMovieByIdUseCase
+    fun provideGetMovieByIdUseCase(impl: GetMovieByIdUseCaseImpl): GetMovieByIdUseCase
+
+    @Binds
+    @ScreenScope
+    fun provideGetPostersByIdUseCase(impl: GetPostersByIdUseCaseImpl): GetPostersByIdUseCase
 }

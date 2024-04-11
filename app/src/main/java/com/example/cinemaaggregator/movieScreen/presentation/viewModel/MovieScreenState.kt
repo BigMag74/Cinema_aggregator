@@ -1,6 +1,6 @@
 package com.example.cinemaaggregator.movieScreen.presentation.viewModel
 
-import com.example.cinemaaggregator.movieScreen.domain.model.MovieByIdResponse
+import com.example.cinemaaggregator.movieScreen.data.network.MovieByIdResponse
 
 sealed interface MovieScreenState {
     data object Loading : MovieScreenState

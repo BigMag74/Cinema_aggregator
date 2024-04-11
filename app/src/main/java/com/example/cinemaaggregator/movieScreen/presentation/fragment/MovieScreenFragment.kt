@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.cinemaaggregator.R
+import com.example.cinemaaggregator.common.util.getDirectors
+import com.example.cinemaaggregator.common.util.getOperators
 import com.example.cinemaaggregator.common.util.listToString
 import com.example.cinemaaggregator.databinding.FragmentMovieBinding
 import com.example.cinemaaggregator.movieScreen.di.MovieScreenComponent
+import com.example.cinemaaggregator.movieScreen.presentation.PosterAdapter
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenState
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenViewModel
 
@@ -25,6 +28,8 @@ class MovieScreenFragment : Fragment() {
     private val component by lazy { MovieScreenComponent.create() }
     private val viewModel by viewModels<MovieScreenViewModel> { component.viewModelFactory() }
 
+    private val posterAdapter by lazy { PosterAdapter(requireContext()) }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
         return binding.root
@@ -36,7 +41,15 @@ class MovieScreenFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             render(it)
         }
+        viewModel.postersState.observe(viewLifecycleOwner) {
+            val stringList: List<String> = it.map { poster -> poster.url!! }
+            posterAdapter.items.addAll(stringList)
+            posterAdapter.notifyDataSetChanged()
+        }
         viewModel.getMovieById(movieId)
+        viewModel.getPostersById(movieId)
+
+        binding.postersRecyclerView.adapter = posterAdapter
     }
 
     private fun render(state: MovieScreenState) {
@@ -56,12 +69,14 @@ class MovieScreenFragment : Fragment() {
     }
 
     private fun showContent(state: MovieScreenState.Content) {
+        state.movie.poster?.url?.let { posterAdapter.items.add(it) }
+        posterAdapter.notifyDataSetChanged()
         binding.titleTV.text = showContentOrPlaceHolder(state.movie.name)
         binding.yearRight.text = showContentOrPlaceHolder(state.movie.year.toString())
-        binding.countryRight.text = showContentOrPlaceHolder(state.movie.countries?.listToString().toString())
-        binding.genreRight.text = showContentOrPlaceHolder(state.movie.genres?.listToString().toString())
-//        binding.directorRight.text = showContentOrPlaceHolder(state.movie.director.toString())
-//        binding.operatorRight.text = showContentOrPlaceHolder(state.movie.operator.toString())
+        binding.countryRight.text = showContentOrPlaceHolder(state.movie.countries?.listToString())
+        binding.genreRight.text = showContentOrPlaceHolder(state.movie.genres?.listToString())
+        binding.directorRight.text = showContentOrPlaceHolder(state.movie.persons.getDirectors())
+        binding.operatorRight.text = showContentOrPlaceHolder(state.movie.persons.getOperators())
         binding.ageRatingRight.text = showContentOrPlaceHolder(state.movie.ageRating.toString() + "+")
         binding.timeRight.text = showContentOrPlaceHolder(state.movie.movieLength.toString() + " мин.")
         binding.ratingRight.text = showContentOrPlaceHolder(state.movie.rating.toString())
