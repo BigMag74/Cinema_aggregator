@@ -7,8 +7,10 @@ import com.example.cinemaaggregator.movieScreen.data.MovieScreenRepositoryImpl
 import com.example.cinemaaggregator.movieScreen.domain.MovieScreenRepository
 import com.example.cinemaaggregator.movieScreen.domain.useCases.GetMovieByIdUseCase
 import com.example.cinemaaggregator.movieScreen.domain.useCases.GetPostersByIdUseCase
+import com.example.cinemaaggregator.movieScreen.domain.useCases.GetReviewsByIdUseCase
 import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetMovieByIdUseCaseImpl
 import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetPostersByIdUseCaseImpl
+import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetReviewsByIdUseCaseImpl
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenViewModel
 import dagger.Binds
 import dagger.Module
@@ -33,4 +35,8 @@ interface MovieScreenModule {
     @Binds
     @ScreenScope
     fun provideGetPostersByIdUseCase(impl: GetPostersByIdUseCaseImpl): GetPostersByIdUseCase
+
+    @Binds
+    @ScreenScope
+    fun provideGetReviewsByIdUseCase(impl: GetReviewsByIdUseCaseImpl): GetReviewsByIdUseCase
 }

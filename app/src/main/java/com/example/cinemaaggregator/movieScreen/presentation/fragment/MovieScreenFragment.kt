@@ -16,6 +16,7 @@ import com.example.cinemaaggregator.databinding.FragmentMovieBinding
 import com.example.cinemaaggregator.movieScreen.di.MovieScreenComponent
 import com.example.cinemaaggregator.movieScreen.presentation.ActorsAdapter
 import com.example.cinemaaggregator.movieScreen.presentation.PosterAdapter
+import com.example.cinemaaggregator.movieScreen.presentation.ReviewAdapter
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenState
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenViewModel
 
@@ -32,6 +33,7 @@ class MovieScreenFragment : Fragment() {
 
     private val posterAdapter by lazy { PosterAdapter(requireContext()) }
     private val actorsAdapter by lazy { ActorsAdapter(requireContext()) }
+    private val reviewsAdapter by lazy { ReviewAdapter(requireContext()) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
@@ -49,11 +51,18 @@ class MovieScreenFragment : Fragment() {
             posterAdapter.items.addAll(stringList)
             posterAdapter.notifyDataSetChanged()
         }
+        viewModel.reviewsState.observe(viewLifecycleOwner) {
+            reviewsAdapter.items = it
+            reviewsAdapter.notifyDataSetChanged()
+        }
+
         viewModel.getMovieById(movieId)
         viewModel.getPostersById(movieId)
+        viewModel.getReviewsById(movieId)
 
         binding.postersRecyclerView.adapter = posterAdapter
         binding.actorsRV.adapter = actorsAdapter
+        binding.reviewsRV.adapter = reviewsAdapter
     }
 
     private fun render(state: MovieScreenState) {
@@ -93,7 +102,7 @@ class MovieScreenFragment : Fragment() {
             state.movie.rating.toString()
         binding.description.text = showContentOrPlaceHolder(state.movie.description)
 
-        state.movie.poster?.url?.let { posterAdapter.items.add(it) }
+        state.movie.poster?.url?.let { posterAdapter.items.add(0, it) }
         posterAdapter.notifyDataSetChanged()
 
         if (state.movie.persons?.getActors() != null)
@@ -102,9 +111,11 @@ class MovieScreenFragment : Fragment() {
     }
 
     private fun showError(state: MovieScreenState.Error) {
+        // TODO
     }
 
     private fun showLoading() {
+        // TODO
     }
 
     private fun showContentOrPlaceHolder(content: String?): String {

@@ -12,6 +12,7 @@ class SearchMoviesByFiltersUseCaseImpl @Inject constructor(private val repositor
 
     override fun execute(filters: Filters, page: Int): Flow<Pair<MoviesAndPageCount?, ErrorStatus?>> {
         val options: HashMap<String, String> = hashMapOf()
+        options["notNullFields"] = "name"
         options["page"] = page.toString()
         if (filters.year != null) {
             options["year"] = filters.year

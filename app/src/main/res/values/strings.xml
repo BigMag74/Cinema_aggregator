@@ -26,4 +26,5 @@
     <string name="reviews">Отзывы</string>
     <string name="episodes">Серии</string>
     <string name="photo">Фото</string>
+    <string name="author">Автор:</string>
 </resources>

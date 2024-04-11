@@ -7,6 +7,8 @@ import com.example.cinemaaggregator.movieScreen.domain.MovieScreenRepository
 import com.example.cinemaaggregator.movieScreen.data.network.MovieByIdResponse
 import com.example.cinemaaggregator.movieScreen.data.network.PostersRequest
 import com.example.cinemaaggregator.movieScreen.data.network.PostersResponse
+import com.example.cinemaaggregator.movieScreen.data.network.ReviewsRequest
+import com.example.cinemaaggregator.movieScreen.data.network.ReviewsResponse
 import com.example.cinemaaggregator.searchScreen.domain.model.Poster
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -42,6 +44,23 @@ class MovieScreenRepositoryImpl @Inject constructor(
 
             200 -> {
                 emit(Pair((response as PostersResponse).docs, null))
+            }
+
+            else -> {
+                emit(Pair(null, ErrorStatus.ERROR_OCCURRED))
+            }
+        }
+    }
+
+    override fun getReviewsById(id: Int): Flow<Pair<ReviewsResponse?, ErrorStatus?>> = flow {
+        val response = networkClient.doRequest(ReviewsRequest(id))
+        when (response.resultCode) {
+            -1 -> {
+                emit(Pair(null, ErrorStatus.NO_CONNECTION))
+            }
+
+            200 -> {
+                emit(Pair((response as ReviewsResponse), null))
             }
 
             else -> {

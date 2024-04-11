@@ -19,4 +19,5 @@ data class MovieByIdResponse(
     val genres: List<Genre>?,
     val rating: Rating?,
     val persons:List<Person>?,
+    val isSeries:Boolean?,
 ) : Response()

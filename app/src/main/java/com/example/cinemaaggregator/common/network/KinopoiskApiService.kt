@@ -2,6 +2,7 @@ package com.example.cinemaaggregator.common.network
 
 import com.example.cinemaaggregator.movieScreen.data.network.PostersResponse
 import com.example.cinemaaggregator.movieScreen.data.network.MovieByIdResponse
+import com.example.cinemaaggregator.movieScreen.data.network.ReviewsResponse
 import com.example.cinemaaggregator.searchScreen.data.network.MoviesSearchResponse
 import com.example.cinemaaggregator.searchScreen.domain.model.Field
 import retrofit2.http.GET
@@ -32,5 +33,10 @@ interface KinopoiskApiService {
     @GET("v1.4/image")
     suspend fun getPostersById(
         @Query("movieId") movieId: String
-    ) : PostersResponse
+    ): PostersResponse
+
+    @GET("v1.4/review")
+    suspend fun getReviewsById(
+        @Query("movieId") movieId: String
+    ): ReviewsResponse
 }
