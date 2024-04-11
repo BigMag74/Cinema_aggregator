@@ -182,13 +182,13 @@ class SearchFragment : Fragment() {
             }
 
             is SearchState.Loading -> {
+                binding.searchScreenEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
                 showLoading()
             }
         }
     }
 
     private fun showContent(state: SearchState.Content) {
-        binding.searchHistoryRV.visibility = View.GONE
         binding.nothingFoundPlaceholderTV.visibility = View.GONE
         binding.nothingFoundPlaceholderIV.visibility = View.GONE
         binding.serverErrorPlaceholderIV.visibility = View.GONE

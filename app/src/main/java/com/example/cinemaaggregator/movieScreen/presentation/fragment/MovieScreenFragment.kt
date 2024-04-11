@@ -1,6 +1,7 @@
 package com.example.cinemaaggregator.movieScreen.presentation.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,10 +63,7 @@ class MovieScreenFragment : Fragment() {
             seasonsAndEpisodesAdapter.notifyDataSetChanged()
         }
 
-        viewModel.getMovieById(movieId)
-        viewModel.getPostersById(movieId)
-        viewModel.getReviewsById(movieId)
-        viewModel.getSeasonsAndEpisodesById(movieId)
+        viewModel.findMovieInformationById(movieId)
 
         binding.postersRecyclerView.adapter = posterAdapter
         binding.actorsRV.adapter = actorsAdapter
@@ -74,6 +72,7 @@ class MovieScreenFragment : Fragment() {
     }
 
     private fun render(state: MovieScreenState) {
+        Log.e("MyTag",state.toString())
         when (state) {
             is MovieScreenState.Content -> {
                 showContent(state)
@@ -90,6 +89,13 @@ class MovieScreenFragment : Fragment() {
     }
 
     private fun showContent(state: MovieScreenState.Content) {
+        binding.serverErrorPlaceholderIV.visibility = View.GONE
+        binding.serverErrorPlaceholderTV.visibility = View.GONE
+        binding.internetIssuesPlaceholderIV.visibility = View.GONE
+        binding.internetIssuesPlaceholderTV.visibility = View.GONE
+        binding.movieScreenMainProgressBar.visibility = View.GONE
+        binding.constraintLayout.visibility = View.VISIBLE
+
         if (state.movie.isSeries == false) {
             binding.episodesRV.visibility = View.GONE
             binding.episodesTV.visibility = View.GONE
@@ -107,11 +113,11 @@ class MovieScreenFragment : Fragment() {
         if (state.movie.movieLength == null)
             binding.timeRight.text = getString(R.string.information_not_found)
         else
-            state.movie.movieLength.toString() + " мин."
+            binding.timeRight.text = state.movie.movieLength.toString() + " мин."
         if (state.movie.rating.toString() == "0.0")
             binding.ratingRight.text = getString(R.string.information_not_found)
         else
-            state.movie.rating.toString()
+            binding.ratingRight.text = state.movie.rating.toString()
         binding.description.text = showContentOrPlaceHolder(state.movie.description)
 
         state.movie.poster?.url?.let { posterAdapter.items.add(0, it) }
@@ -123,11 +129,27 @@ class MovieScreenFragment : Fragment() {
     }
 
     private fun showError(state: MovieScreenState.Error) {
-        // TODO
+        Log.e("MyTag","test1")
+        binding.movieScreenMainProgressBar.visibility = View.GONE
+        binding.constraintLayout.visibility = View.GONE
+        if (state.errorMessageResId == R.string.server_error) {
+            binding.serverErrorPlaceholderIV.visibility = View.VISIBLE
+            binding.serverErrorPlaceholderTV.visibility = View.VISIBLE
+        }
+        if (state.errorMessageResId == R.string.check_internet_connection) {
+            binding.internetIssuesPlaceholderIV.visibility = View.VISIBLE
+            binding.internetIssuesPlaceholderTV.visibility = View.VISIBLE
+            Log.e("MyTag","test2")
+        }
     }
 
     private fun showLoading() {
-        // TODO
+        binding.constraintLayout.visibility = View.GONE
+        binding.serverErrorPlaceholderIV.visibility = View.GONE
+        binding.serverErrorPlaceholderTV.visibility = View.GONE
+        binding.internetIssuesPlaceholderIV.visibility = View.GONE
+        binding.internetIssuesPlaceholderTV.visibility = View.GONE
+        binding.movieScreenMainProgressBar.visibility = View.VISIBLE
     }
 
     private fun showContentOrPlaceHolder(content: String?): String {

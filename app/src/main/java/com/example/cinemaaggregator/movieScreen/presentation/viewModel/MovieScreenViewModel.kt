@@ -37,7 +37,14 @@ class MovieScreenViewModel @Inject constructor(
 
     private var reviewsPages = 0
 
-    fun getMovieById(id: Int) {
+    fun findMovieInformationById(id: Int){
+        getMovieById(id)
+        getPostersById(id)
+        getReviewsById(id)
+        getSeasonsAndEpisodesById(id)
+    }
+
+    private fun getMovieById(id: Int) {
         setState(MovieScreenState.Loading)
         viewModelScope.launch {
             val res = getMovieByIdUseCase.execute(id)
@@ -52,7 +59,7 @@ class MovieScreenViewModel @Inject constructor(
         }
     }
 
-    fun getPostersById(id: Int) {
+    private fun getPostersById(id: Int) {
         viewModelScope.launch {
             getPostersByIdUseCase.execute(id).collect {
                 if (it.first != null) {
@@ -62,7 +69,7 @@ class MovieScreenViewModel @Inject constructor(
         }
     }
 
-    fun getReviewsById(id: Int) {
+    private fun getReviewsById(id: Int) {
         viewModelScope.launch {
             getReviewsByIdUseCase.execute(id).collect {
                 if (it.first != null) {
@@ -73,7 +80,7 @@ class MovieScreenViewModel @Inject constructor(
         }
     }
 
-    fun getSeasonsAndEpisodesById(id: Int) {
+    private fun getSeasonsAndEpisodesById(id: Int) {
         viewModelScope.launch {
             getSeasonsAndEpisodesByIdUseCase.execute(id).collect {
                 if (it.first != null) {
