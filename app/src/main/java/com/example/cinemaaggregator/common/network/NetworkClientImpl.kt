@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import com.example.cinemaaggregator.movieScreen.data.network.MovieByIdRequest
 import com.example.cinemaaggregator.movieScreen.data.network.PostersRequest
 import com.example.cinemaaggregator.movieScreen.data.network.ReviewsRequest
+import com.example.cinemaaggregator.movieScreen.data.network.SeasonsAndEpisodesRequest
 import com.example.cinemaaggregator.searchScreen.data.network.FieldRequest
 import com.example.cinemaaggregator.searchScreen.data.network.FieldResponse
 import com.example.cinemaaggregator.searchScreen.data.network.SearchWithFiltersRequest
@@ -71,7 +72,7 @@ class NetworkClientImpl @Inject constructor(
             is PostersRequest -> {
                 return withContext(Dispatchers.IO) {
                     try {
-                        val response = kinopoiskApiService.getPostersById(dto.movieId.toString())
+                        val response = kinopoiskApiService.getPostersById(dto.movieId)
                         response.apply { resultCode = 200 }
                     } catch (e: Throwable) {
                         Response().apply { resultCode = 500 }
@@ -82,7 +83,18 @@ class NetworkClientImpl @Inject constructor(
             is ReviewsRequest -> {
                 return withContext(Dispatchers.IO) {
                     try {
-                        val response = kinopoiskApiService.getReviewsById(dto.movieId.toString())
+                        val response = kinopoiskApiService.getReviewsById(dto.movieId)
+                        response.apply { resultCode = 200 }
+                    } catch (e: Throwable) {
+                        Response().apply { resultCode = 500 }
+                    }
+                }
+            }
+
+            is SeasonsAndEpisodesRequest -> {
+                return withContext(Dispatchers.IO) {
+                    try {
+                        val response = kinopoiskApiService.getSeasonsAndEpisodesById(dto.movieId)
                         response.apply { resultCode = 200 }
                     } catch (e: Throwable) {
                         Response().apply { resultCode = 500 }

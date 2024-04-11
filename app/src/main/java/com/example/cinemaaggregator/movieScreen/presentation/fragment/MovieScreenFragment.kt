@@ -17,6 +17,7 @@ import com.example.cinemaaggregator.movieScreen.di.MovieScreenComponent
 import com.example.cinemaaggregator.movieScreen.presentation.ActorsAdapter
 import com.example.cinemaaggregator.movieScreen.presentation.PosterAdapter
 import com.example.cinemaaggregator.movieScreen.presentation.ReviewAdapter
+import com.example.cinemaaggregator.movieScreen.presentation.SeasonsAndEpisodesAdapter
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenState
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenViewModel
 
@@ -34,6 +35,7 @@ class MovieScreenFragment : Fragment() {
     private val posterAdapter by lazy { PosterAdapter(requireContext()) }
     private val actorsAdapter by lazy { ActorsAdapter(requireContext()) }
     private val reviewsAdapter by lazy { ReviewAdapter(requireContext()) }
+    private val seasonsAndEpisodesAdapter by lazy { SeasonsAndEpisodesAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
@@ -55,14 +57,20 @@ class MovieScreenFragment : Fragment() {
             reviewsAdapter.items = it
             reviewsAdapter.notifyDataSetChanged()
         }
+        viewModel.seasonsAndEpisodesState.observe(viewLifecycleOwner) {
+            seasonsAndEpisodesAdapter.items = it
+            seasonsAndEpisodesAdapter.notifyDataSetChanged()
+        }
 
         viewModel.getMovieById(movieId)
         viewModel.getPostersById(movieId)
         viewModel.getReviewsById(movieId)
+        viewModel.getSeasonsAndEpisodesById(movieId)
 
         binding.postersRecyclerView.adapter = posterAdapter
         binding.actorsRV.adapter = actorsAdapter
         binding.reviewsRV.adapter = reviewsAdapter
+        binding.episodesRV.adapter = seasonsAndEpisodesAdapter
     }
 
     private fun render(state: MovieScreenState) {
@@ -82,6 +90,10 @@ class MovieScreenFragment : Fragment() {
     }
 
     private fun showContent(state: MovieScreenState.Content) {
+        if (state.movie.isSeries == false) {
+            binding.episodesRV.visibility = View.GONE
+            binding.episodesTV.visibility = View.GONE
+        }
         binding.titleTV.text = showContentOrPlaceHolder(state.movie.name)
         binding.yearRight.text = showContentOrPlaceHolder(state.movie.year.toString())
         binding.countryRight.text = showContentOrPlaceHolder(state.movie.countries?.listToString())

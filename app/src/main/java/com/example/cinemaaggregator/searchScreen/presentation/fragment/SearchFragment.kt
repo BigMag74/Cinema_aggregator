@@ -188,6 +188,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun showContent(state: SearchState.Content) {
+        binding.searchHistoryRV.visibility = View.GONE
         binding.nothingFoundPlaceholderTV.visibility = View.GONE
         binding.nothingFoundPlaceholderIV.visibility = View.GONE
         binding.serverErrorPlaceholderIV.visibility = View.GONE

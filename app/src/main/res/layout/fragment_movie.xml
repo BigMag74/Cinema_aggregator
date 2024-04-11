@@ -210,16 +210,16 @@
             app:layout_constraintTop_toBottomOf="@id/description" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:background="@drawable/rectangle_with_corners"
             android:id="@+id/actorsRV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp16"
-            tools:listitem="@layout/item_actor"
+            android:background="@drawable/rectangle_with_corners"
             android:backgroundTint="@color/light_gray"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/actorsTV" />
+            app:layout_constraintTop_toBottomOf="@id/actorsTV"
+            tools:listitem="@layout/item_actor" />
 
         <TextView
             android:id="@+id/reviewsTV"
@@ -232,7 +232,6 @@
             app:layout_constraintTop_toBottomOf="@id/actorsRV" />
 
         <androidx.recyclerview.widget.RecyclerView
-            tools:listitem="@layout/item_review"
             android:id="@+id/reviewsRV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -240,7 +239,8 @@
             android:backgroundTint="@color/light_gray"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/reviewsTV" />
+            app:layout_constraintTop_toBottomOf="@id/reviewsTV"
+            tools:listitem="@layout/item_review" />
 
         <TextView
             android:id="@+id/episodesTV"
@@ -255,13 +255,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/episodesRV"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp16"
-            android:background="@drawable/rectangle_with_corners"
-            android:backgroundTint="@color/light_gray"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/episodesTV" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/episodesTV"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_episodes" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

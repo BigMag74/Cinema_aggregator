@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class Datamodule {
+class DataModule {
 
     @Provides
     fun provideSharedPreferences(context: Context): SharedPreferences {

@@ -8,9 +8,11 @@ import com.example.cinemaaggregator.movieScreen.domain.MovieScreenRepository
 import com.example.cinemaaggregator.movieScreen.domain.useCases.GetMovieByIdUseCase
 import com.example.cinemaaggregator.movieScreen.domain.useCases.GetPostersByIdUseCase
 import com.example.cinemaaggregator.movieScreen.domain.useCases.GetReviewsByIdUseCase
+import com.example.cinemaaggregator.movieScreen.domain.useCases.GetSeasonsAndEpisodesByIdUseCase
 import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetMovieByIdUseCaseImpl
 import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetPostersByIdUseCaseImpl
 import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetReviewsByIdUseCaseImpl
+import com.example.cinemaaggregator.movieScreen.domain.useCases.impl.GetSeasonsAndEpisodesByIdUseCaseImpl
 import com.example.cinemaaggregator.movieScreen.presentation.viewModel.MovieScreenViewModel
 import dagger.Binds
 import dagger.Module
@@ -39,4 +41,8 @@ interface MovieScreenModule {
     @Binds
     @ScreenScope
     fun provideGetReviewsByIdUseCase(impl: GetReviewsByIdUseCaseImpl): GetReviewsByIdUseCase
+
+    @Binds
+    @ScreenScope
+    fun provideGetSeasonsAndEpisodesById(impl: GetSeasonsAndEpisodesByIdUseCaseImpl): GetSeasonsAndEpisodesByIdUseCase
 }

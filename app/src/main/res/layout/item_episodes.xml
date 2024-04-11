@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp8">
+
+    <TextView
+        android:id="@+id/seasonName"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Сезон 1" />
+
+    <TextView
+        tools:text="Эпизод 1. Пилотная серия\nЭпизод 2. Кот в мешке...\nЭпизод 3. ...и мешок в реке"
+        android:id="@+id/episodes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/seasonName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
