@@ -10,6 +10,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/titleTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/titleTV"
+            app:tint="@color/black" />
+
+        <TextView
+            android:layout_marginEnd="@dimen/dp8"
+            android:id="@+id/titleTV"
+            style="@style/TitleText"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp32"
+            android:layout_marginTop="@dimen/dp8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/backButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Человек паук" />
+
         <ProgressBar
             android:id="@+id/movieScreenMainProgressBar"
             android:layout_width="@dimen/dp48"
@@ -75,7 +100,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/titleTV">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/postersRecyclerView"
@@ -88,17 +114,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/titleTV"
-                style="@style/TitleText"
-                android:layout_width="@dimen/dp0"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp8"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/postersRecyclerView"
-                tools:text="Человек паук" />
 
             <TextView
                 android:id="@+id/yearLeft"
@@ -107,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/production_year"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleTV" />
+                app:layout_constraintTop_toBottomOf="@+id/postersRecyclerView" />
 
             <TextView
                 android:id="@+id/yearRight"
@@ -117,7 +132,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/countryRight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/yearLeft"
-                app:layout_constraintTop_toBottomOf="@+id/titleTV"
+                app:layout_constraintTop_toBottomOf="@+id/postersRecyclerView"
                 tools:text="2002" />
 
             <TextView

@@ -35,7 +35,7 @@ class ReviewsViewHolder(
 ) : ViewHolder(binding.root) {
 
     fun bind(item: Review) {
-        if (item.title.isEmpty())
+        if (item.title.isNullOrEmpty())
             binding.title.visibility = View.GONE
         binding.title.text = item.title
         binding.authorRight.text = item.author

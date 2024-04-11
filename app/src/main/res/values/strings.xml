@@ -27,4 +27,8 @@
     <string name="episodes">Серии</string>
     <string name="photo">Фото</string>
     <string name="author">Автор:</string>
+    <string name="back">назад</string>
+    <string name="reviews_not_found">Отзывы отсутствуют</string>
+    <string name="actors_not_found">Информация об актерах отсутствует</string>
+    <string name="seasons_not_found">Информация о эпизодах отсутствует</string>
 </resources>

@@ -1,12 +1,12 @@
 package com.example.cinemaaggregator.movieScreen.presentation.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.cinemaaggregator.R
 import com.example.cinemaaggregator.common.util.getActors
@@ -15,6 +15,9 @@ import com.example.cinemaaggregator.common.util.getOperators
 import com.example.cinemaaggregator.common.util.listToString
 import com.example.cinemaaggregator.databinding.FragmentMovieBinding
 import com.example.cinemaaggregator.movieScreen.di.MovieScreenComponent
+import com.example.cinemaaggregator.movieScreen.domain.model.Actor
+import com.example.cinemaaggregator.movieScreen.domain.model.Review
+import com.example.cinemaaggregator.movieScreen.domain.model.Season
 import com.example.cinemaaggregator.movieScreen.presentation.ActorsAdapter
 import com.example.cinemaaggregator.movieScreen.presentation.PosterAdapter
 import com.example.cinemaaggregator.movieScreen.presentation.ReviewAdapter
@@ -55,12 +58,10 @@ class MovieScreenFragment : Fragment() {
             posterAdapter.notifyDataSetChanged()
         }
         viewModel.reviewsState.observe(viewLifecycleOwner) {
-            reviewsAdapter.items = it
-            reviewsAdapter.notifyDataSetChanged()
+            renderReviewState(it)
         }
         viewModel.seasonsAndEpisodesState.observe(viewLifecycleOwner) {
-            seasonsAndEpisodesAdapter.items = it
-            seasonsAndEpisodesAdapter.notifyDataSetChanged()
+            renderSeasonsAndEpisodesState(it)
         }
 
         viewModel.findMovieInformationById(movieId)
@@ -69,10 +70,11 @@ class MovieScreenFragment : Fragment() {
         binding.actorsRV.adapter = actorsAdapter
         binding.reviewsRV.adapter = reviewsAdapter
         binding.episodesRV.adapter = seasonsAndEpisodesAdapter
+
+        binding.backButton.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun render(state: MovieScreenState) {
-        Log.e("MyTag",state.toString())
         when (state) {
             is MovieScreenState.Content -> {
                 showContent(state)
@@ -123,13 +125,10 @@ class MovieScreenFragment : Fragment() {
         state.movie.poster?.url?.let { posterAdapter.items.add(0, it) }
         posterAdapter.notifyDataSetChanged()
 
-        if (state.movie.persons?.getActors() != null)
-            actorsAdapter.items = state.movie.persons.getActors()
-        actorsAdapter.notifyDataSetChanged()
+        renderActorsState(state.movie.persons?.getActors())
     }
 
     private fun showError(state: MovieScreenState.Error) {
-        Log.e("MyTag","test1")
         binding.movieScreenMainProgressBar.visibility = View.GONE
         binding.constraintLayout.visibility = View.GONE
         if (state.errorMessageResId == R.string.server_error) {
@@ -139,7 +138,6 @@ class MovieScreenFragment : Fragment() {
         if (state.errorMessageResId == R.string.check_internet_connection) {
             binding.internetIssuesPlaceholderIV.visibility = View.VISIBLE
             binding.internetIssuesPlaceholderTV.visibility = View.VISIBLE
-            Log.e("MyTag","test2")
         }
     }
 
@@ -157,5 +155,32 @@ class MovieScreenFragment : Fragment() {
             return getString(R.string.information_not_found)
         }
         return content
+    }
+
+    private fun renderActorsState(actors: List<Actor>?) {
+        if (!actors.isNullOrEmpty()) {
+            actorsAdapter.items = actors
+            actorsAdapter.notifyDataSetChanged()
+        } else {
+            binding.actorsTV.text = getString(R.string.actors_not_found)
+        }
+    }
+
+    private fun renderReviewState(reviews: List<Review>) {
+        if (reviews.isEmpty()) {
+            binding.reviewsTV.text = getString(R.string.reviews_not_found)
+        } else {
+            reviewsAdapter.items = reviews
+            reviewsAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun renderSeasonsAndEpisodesState(seasons: List<Season>) {
+        if (seasons.isEmpty()) {
+            binding.episodesTV.text = getString(R.string.seasons_not_found)
+        } else {
+            seasonsAndEpisodesAdapter.items = seasons
+            seasonsAndEpisodesAdapter.notifyDataSetChanged()
+        }
     }
 }
