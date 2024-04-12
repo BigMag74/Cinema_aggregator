@@ -83,7 +83,7 @@ class NetworkClientImpl @Inject constructor(
             is ReviewsRequest -> {
                 return withContext(Dispatchers.IO) {
                     try {
-                        val response = kinopoiskApiService.getReviewsById(dto.movieId)
+                        val response = kinopoiskApiService.getReviewsById(dto.options)
                         response.apply { resultCode = 200 }
                     } catch (e: Throwable) {
                         Response().apply { resultCode = 500 }

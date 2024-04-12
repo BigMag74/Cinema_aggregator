@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetReviewsByIdUseCase {
 
-    fun execute(id: Int): Flow<Pair<ReviewsResponse?, ErrorStatus?>>
+    fun execute(id: Int, page: Int): Flow<Pair<ReviewsResponse?, ErrorStatus?>>
 }

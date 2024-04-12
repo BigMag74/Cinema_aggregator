@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cinemaaggregator.R
 import com.example.cinemaaggregator.common.util.getActors
 import com.example.cinemaaggregator.common.util.getDirectors
@@ -70,8 +72,22 @@ class MovieScreenFragment : Fragment() {
         binding.actorsRV.adapter = actorsAdapter
         binding.reviewsRV.adapter = reviewsAdapter
         binding.episodesRV.adapter = seasonsAndEpisodesAdapter
+        binding.reviewsRV.addOnScrollListener(onScrollListener)
 
         binding.backButton.setOnClickListener { findNavController().navigateUp() }
+    }
+
+    private val onScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (dx > 0) {
+                val pos = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                val itemsCount = reviewsAdapter.itemCount
+                if ((itemsCount > 0) && (pos >= itemsCount - 1)) {
+                    viewModel.getMoreReviews(movieId)
+                }
+            }
+        }
     }
 
     private fun render(state: MovieScreenState) {

@@ -13,7 +13,7 @@ interface MovieScreenRepository {
 
     fun getPostersById(id: Int): Flow<Pair<List<Poster>?, ErrorStatus?>>
 
-    fun getReviewsById(id: Int): Flow<Pair<ReviewsResponse?, ErrorStatus?>>
+    fun getReviewsById(options: HashMap<String, String>): Flow<Pair<ReviewsResponse?, ErrorStatus?>>
 
     fun getSeasonsAndEpisodesById(id: Int): Flow<Pair<SeasonsAndEpisodesResponse?, ErrorStatus?>>
 }

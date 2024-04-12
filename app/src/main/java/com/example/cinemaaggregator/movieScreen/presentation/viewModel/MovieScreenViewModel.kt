@@ -35,9 +35,11 @@ class MovieScreenViewModel @Inject constructor(
     private val _seasonsAndEpisodesState = MutableLiveData<List<Season>>()
     val seasonsAndEpisodesState: LiveData<List<Season>> = _seasonsAndEpisodesState
 
-    private var reviewsPages = 0
+    private var reviewsPages = 1
+    private var reviewPage = 1
+    private val reviewList = mutableListOf<Review>()
 
-    fun findMovieInformationById(id: Int){
+    fun findMovieInformationById(id: Int) {
         getMovieById(id)
         getPostersById(id)
         getReviewsById(id)
@@ -71,13 +73,20 @@ class MovieScreenViewModel @Inject constructor(
 
     private fun getReviewsById(id: Int) {
         viewModelScope.launch {
-            getReviewsByIdUseCase.execute(id).collect {
+            getReviewsByIdUseCase.execute(id, reviewPage).collect {
                 if (it.first != null) {
-                    _reviewsState.value = it.first!!.docs
+                    reviewList.addAll(it.first!!.docs)
+                    _reviewsState.value = reviewList
                     reviewsPages = it.first!!.pages
+                    reviewPage++
                 }
             }
         }
+    }
+
+    fun getMoreReviews(id: Int) {
+        if (reviewPage <= reviewsPages)
+            getReviewsById(id)
     }
 
     private fun getSeasonsAndEpisodesById(id: Int) {

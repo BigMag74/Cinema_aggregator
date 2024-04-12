@@ -38,7 +38,7 @@ interface KinopoiskApiService {
 
     @GET("v1.4/review")
     suspend fun getReviewsById(
-        @Query("movieId") movieId: Int
+        @QueryMap options: Map<String, String>
     ): ReviewsResponse
 
     @GET("v1.4/season")

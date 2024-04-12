@@ -54,8 +54,8 @@ class MovieScreenRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getReviewsById(id: Int): Flow<Pair<ReviewsResponse?, ErrorStatus?>> = flow {
-        val response = networkClient.doRequest(ReviewsRequest(id))
+    override fun getReviewsById(options: HashMap<String, String>): Flow<Pair<ReviewsResponse?, ErrorStatus?>> = flow {
+        val response = networkClient.doRequest(ReviewsRequest(options))
         when (response.resultCode) {
             -1 -> {
                 emit(Pair(null, ErrorStatus.NO_CONNECTION))
