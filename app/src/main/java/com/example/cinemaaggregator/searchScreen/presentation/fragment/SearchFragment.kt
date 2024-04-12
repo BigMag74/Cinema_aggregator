@@ -86,6 +86,11 @@ class SearchFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.searchScreenEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
+    }
+
     private fun searchByNameDebounced(text: String) {
         viewModel.searchByNameDebounced(text)
         binding.searchHistoryRV.visibility = View.GONE

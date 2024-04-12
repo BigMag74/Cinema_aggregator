@@ -62,7 +62,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
 
-    //Glide
+    // Glide
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
 
