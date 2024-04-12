@@ -37,6 +37,7 @@ class FiltersDialogFragment(
 
         binding.yearET.setText(filters.year)
         binding.ageRatingET.setText(filters.ageRating)
+        binding.ratingKPET.setText(filters.ratingKP)
         countrySpinnerAdapter?.getPosition(filters.country)?.let { binding.countrySpinner.setSelection(it, true) }
         genreSpinnerAdapter?.getPosition(filters.genre)?.let { binding.genreSpinner.setSelection(it, true) }
 
@@ -45,6 +46,7 @@ class FiltersDialogFragment(
             .setPositiveButton("Применить") { _, _ ->
                 val year = if (binding.yearET.text.isNotBlank()) binding.yearET.text.toString() else null
                 val ageRating = if (binding.ageRatingET.text.isNotBlank()) binding.ageRatingET.text.toString() else null
+                val ratingKP = if (binding.ratingKPET.text.isNotBlank()) binding.ratingKPET.text.toString() else null
 
                 val country = if (binding.countrySpinner.selectedItem.toString() == getString(
                         R.string.not_selected
@@ -56,7 +58,7 @@ class FiltersDialogFragment(
                     )
                 ) null else binding.genreSpinner.selectedItem.toString()
 
-                val newFilters = Filters(year, country, ageRating, genre)
+                val newFilters = Filters(year, country, ageRating, genre, ratingKP)
                 onPositiveButtonClicked(newFilters)
             }
             .setNegativeButton("Отмена") { _, _ ->

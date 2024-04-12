@@ -31,4 +31,6 @@
     <string name="reviews_not_found">Отзывы отсутствуют</string>
     <string name="actors_not_found">Информация об актерах отсутствует</string>
     <string name="seasons_not_found">Информация о эпизодах отсутствует</string>
+    <string name="rating_kp">Рейтинг кинопоиска</string>
+    <string name="from_6">от 6</string>
 </resources>

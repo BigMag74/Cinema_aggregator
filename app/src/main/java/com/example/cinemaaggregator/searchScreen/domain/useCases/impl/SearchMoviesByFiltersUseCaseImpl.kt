@@ -26,6 +26,9 @@ class SearchMoviesByFiltersUseCaseImpl @Inject constructor(private val repositor
         if (filters.genre != null) {
             options["genres.name"] = filters.genre
         }
+        if (filters.ratingKP != null) {
+            options["rating.kp"] = filters.ratingKP + "-10"
+        }
         return repository.searchWithFilters(options)
     }
 }

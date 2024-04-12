@@ -97,29 +97,33 @@ class MovieScreenFragment : Fragment() {
         binding.internetIssuesPlaceholderTV.visibility = View.GONE
         binding.movieScreenMainProgressBar.visibility = View.GONE
         binding.constraintLayout.visibility = View.VISIBLE
-
         if (state.movie.isSeries == false) {
             binding.episodesRV.visibility = View.GONE
             binding.episodesTV.visibility = View.GONE
         }
+
         binding.titleTV.text = showContentOrPlaceHolder(state.movie.name)
         binding.yearRight.text = showContentOrPlaceHolder(state.movie.year.toString())
         binding.countryRight.text = showContentOrPlaceHolder(state.movie.countries?.listToString())
         binding.genreRight.text = showContentOrPlaceHolder(state.movie.genres?.listToString())
         binding.directorRight.text = showContentOrPlaceHolder(state.movie.persons?.getDirectors())
         binding.operatorRight.text = showContentOrPlaceHolder(state.movie.persons?.getOperators())
+
         if (state.movie.ageRating == null)
             binding.ageRatingRight.text = getString(R.string.information_not_found)
         else
             binding.ageRatingRight.text = state.movie.ageRating.toString() + "+"
+
         if (state.movie.movieLength == null)
             binding.timeRight.text = getString(R.string.information_not_found)
         else
             binding.timeRight.text = state.movie.movieLength.toString() + " мин."
+
         if (state.movie.rating.toString() == "0.0")
             binding.ratingRight.text = getString(R.string.information_not_found)
         else
             binding.ratingRight.text = state.movie.rating.toString()
+
         binding.description.text = showContentOrPlaceHolder(state.movie.description)
 
         state.movie.poster?.url?.let { posterAdapter.items.add(0, it) }
