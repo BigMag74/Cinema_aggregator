@@ -14,10 +14,10 @@
 
 package com.example.cinemaaggregator.common.network
 
-object KinopoiskApiTokenConst {
-
+{
+object KinopoiskApiTokenConst 
     const val TOKEN = "YOUR_TOKEN_HERE"
-}
+    }
 
 Проверьте, что токен работает в классе HeaderInterceptor, также расположенном в app/java/com/example/cinemaaggregator/common/network
 
@@ -31,7 +31,12 @@ object KinopoiskApiTokenConst {
 ### Основные запросы
 
 1. Запрос на получение списка фильмов по фильтрам
-![image](https://github.com/BigMag74/Cinema_aggregator/assets/116560396/f39c924d-3732-4505-9ae1-fb34137d19a0)
+{
+@GET("v1.4/movie")
+    suspend fun searchWithFilters(
+        @QueryMap options: Map<String, String>
+    ): MoviesSearchResponse
+   }
 Этот запрос принимает в себя следующие параметры:
 "notNullFields" = "name" - Для получения списка только фильмов с названием
 "page" - Необходимо для пагинации ("limit" остается страндартный, равный 10)
