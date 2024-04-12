@@ -14,10 +14,11 @@
 
 package com.example.cinemaaggregator.common.network
 
-{
-object KinopoiskApiTokenConst 
+```kotlin
+object KinopoiskApiTokenConst {
     const val TOKEN = "YOUR_TOKEN_HERE"
-    }
+}
+```
 
 Проверьте, что токен работает в классе HeaderInterceptor, также расположенном в app/java/com/example/cinemaaggregator/common/network
 
@@ -32,11 +33,14 @@ object KinopoiskApiTokenConst
 
 1. Запрос на получение списка фильмов по фильтрам
 {
+
+```kotlin
 @GET("v1.4/movie")
     suspend fun searchWithFilters(
         @QueryMap options: Map<String, String>
     ): MoviesSearchResponse
-   }
+```
+
 Этот запрос принимает в себя следующие параметры:
 "notNullFields" = "name" - Для получения списка только фильмов с названием
 "page" - Необходимо для пагинации ("limit" остается страндартный, равный 10)
